@@ -12,7 +12,10 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', 'G-5W9JKQE37K');
+    // Configured with debug_mode enabled for instant DebugView testing
+    gtag('config', 'G-5W9JKQE37K', {
+      'debug_mode': true
+    });
   </script>
 
   <style>
@@ -94,11 +97,12 @@
         'test_user_name': name,
         'test_user_phone': phone,
         'test_user_email': email,
-        'test_description_length': description.length
+        'test_description_length': description.length,
+        'debug_mode': true // Fallback event-level flag
       });
 
-      document.getElementById('status').innerText = 'Event sent to G-5W9JKQE37K!';
-      console.log('gtag event sent:', { name, phone, email, description });
+      document.getElementById('status').innerText = 'Event sent to G-5W9JKQE37K (Debug Mode)!';
+      console.log('gtag debug event sent:', { name, phone, email, description });
       
       this.reset();
     });
