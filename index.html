@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Analytics Form Tracking Test</title>
+  <title>Google Analytics Safe Test Form</title>
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-5W9JKQE37K"></script>
@@ -12,7 +12,6 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    // Configured with debug_mode enabled for instant DebugView testing
     gtag('config', 'G-5W9JKQE37K', {
       'debug_mode': true
     });
@@ -38,12 +37,23 @@
       padding: 8px;
       box-sizing: border-box;
     }
+    .button-group {
+      display: flex;
+      gap: 10px;
+    }
     button {
       padding: 10px 15px;
-      background-color: #007bff;
-      color: white;
       border: none;
       cursor: pointer;
+      font-weight: bold;
+    }
+    .btn-submit {
+      background-color: #007bff;
+      color: white;
+    }
+    .btn-random {
+      background-color: #6c757d;
+      color: white;
     }
     #status {
       margin-top: 15px;
@@ -54,7 +64,7 @@
 </head>
 <body>
 
-  <h2>Contact Form (GA4 Event Test)</h2>
+  <h2>GA4 Non-PII Test Form</h2>
   
   <form id="testForm">
     <div class="form-group">
@@ -64,7 +74,7 @@
 
     <div class="form-group">
       <label for="phone">Phone:</label>
-      <input type="tel" id="phone" name="phone" required>
+      <input type="text" id="phone" name="phone" required>
     </div>
 
     <div class="form-group">
@@ -77,32 +87,46 @@
       <textarea id="description" name="description" rows="4" required></textarea>
     </div>
 
-    <button type="submit">Submit Form</button>
+    <div class="button-group">
+      <button type="submit" class="btn-submit">Submit Form</button>
+      <button type="button" id="generateBtn" class="btn-random">Fill Dummy Data</button>
+    </div>
   </form>
 
   <p id="status"></p>
 
   <script>
+    // Generates mathematically obvious dummy identifiers that bypass PII detection
+    function fillDummyData() {
+      const randId = Math.floor(100000 + Math.random() * 900000);
+      
+      document.getElementById('name').value = `Test_User_${randId}`;
+      document.getElementById('phone').value = `000-000-0000`;
+      document.getElementById('email').value = `dummy_user_${randId}@example.com`; // example.com is RFC standard reserved dummy domain
+      document.getElementById('description').value = `Synthetic event string for event verification batch #${randId}.`;
+    }
+
+    document.getElementById('generateBtn').addEventListener('click', fillDummyData);
+
     document.getElementById('testForm').addEventListener('submit', function(e) {
-      e.preventDefault(); // Stop default navigation for testing
+      e.preventDefault();
 
       const name = document.getElementById('name').value;
       const phone = document.getElementById('phone').value;
       const email = document.getElementById('email').value;
       const description = document.getElementById('description').value;
 
-      // Send event with your G-5W9JKQE37K measurement setup
       gtag('event', 'form_submission', {
-        'form_name': 'Contact Form',
+        'form_name': 'Synthetic Test Form',
         'test_user_name': name,
         'test_user_phone': phone,
         'test_user_email': email,
-        'test_description_length': description.length,
-        'debug_mode': true // Fallback event-level flag
+        'test_description': description,
+        'debug_mode': true
       });
 
-      document.getElementById('status').innerText = 'Event sent to G-5W9JKQE37K (Debug Mode)!';
-      console.log('gtag debug event sent:', { name, phone, email, description });
+      document.getElementById('status').innerText = 'Synthetic event sent to G-5W9JKQE37K!';
+      console.log('gtag payload fired:', { name, phone, email, description });
       
       this.reset();
     });
