@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Analytics Safe Test Form</title>
+  <title>GA4 Enhanced Measurement Testing Lab</title>
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-5W9JKQE37K"></script>
@@ -20,17 +20,29 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      max-width: 500px;
+      max-width: 650px;
       margin: 40px auto;
       padding: 0 20px;
+      line-height: 1.6;
+    }
+    .test-section {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 15px 20px;
+      margin-bottom: 25px;
+      background-color: #fafafa;
+    }
+    .test-section h3 {
+      margin-top: 0;
+      color: #0056b3;
     }
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
     label {
       display: block;
-      margin-bottom: 5px;
       font-weight: bold;
+      margin-bottom: 4px;
     }
     input, textarea {
       width: 100%;
@@ -44,80 +56,142 @@
     button {
       padding: 10px 15px;
       border: none;
+      border-radius: 4px;
       cursor: pointer;
       font-weight: bold;
     }
-    .btn-submit {
-      background-color: #007bff;
+    .btn-submit { background-color: #007bff; color: white; }
+    .btn-random { background-color: #6c757d; color: white; }
+    .download-btn {
+      display: inline-block;
+      padding: 8px 12px;
+      background: #28a745;
       color: white;
+      text-decoration: none;
+      border-radius: 4px;
     }
-    .btn-random {
-      background-color: #6c757d;
-      color: white;
-    }
-    #status {
-      margin-top: 15px;
-      color: green;
+    .scroll-spacer {
+      height: 1200px;
+      background: linear-gradient(180deg, #f0f0f0 0%, #e0e0e0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-weight: bold;
+      color: #666;
+      border-radius: 6px;
+      margin-top: 20px;
     }
+    #status { color: green; font-weight: bold; }
   </style>
 </head>
 <body>
 
-  <h2>GA4 Non-PII Test Form</h2>
-  
-  <form id="testForm">
-    <div class="form-group">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required>
-    </div>
+  <h1>GA4 Enhanced Measurement Testing Suite</h1>
+  <p>Open <strong>GA4 DebugView</strong> to watch native events fire as you interact with these elements.</p>
 
-    <div class="form-group">
-      <label for="phone">Phone:</label>
-      <input type="text" id="phone" name="phone" required>
-    </div>
+  <!-- 1. FORM TRACKING (Automatic GA4 form_start & form_submit) -->
+  <div class="test-section">
+    <h3>1. Native Form Interactions (`form_start` & `form_submit`)</h3>
+    <form id="testForm" action="javascript:void(0);">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" rows="3" required></textarea>
+      </div>
+      <div class="button-group">
+        <button type="submit" class="btn-submit">Submit Form</button>
+        <button type="button" id="generateBtn" class="btn-random">Fill Dummy Data</button>
+      </div>
+    </form>
+    <p id="status"></p>
+  </div>
 
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
-    </div>
+  <!-- 2. SITE SEARCH TRACKING (view_search_results) -->
+  <div class="test-section">
+    <h3>2. Site Search (`view_search_results`)</h3>
+    <p>GA4 inspects URL query parameters (like <code>?q=...</code> or <code>?s=...</code>) to track internal site searches.</p>
+    <form method="GET" action="">
+      <div class="form-group">
+        <label for="searchQuery">Search Term:</label>
+        <input type="text" id="searchQuery" name="q" placeholder="Type something and press Enter..." required>
+      </div>
+      <button type="submit" class="btn-submit">Search Site</button>
+    </form>
+  </div>
 
-    <div class="form-group">
-      <label for="description">Description:</label>
-      <textarea id="description" name="description" rows="4" required></textarea>
-    </div>
+  <!-- 3. FILE DOWNLOAD TRACKING (file_download) -->
+  <div class="test-section">
+    <h3>3. File Downloads (`file_download`)</h3>
+    <p>GA4 automatically tracks clicks on links ending in document/archive extensions (.pdf, .zip, .csv, .docx, etc.):</p>
+    <a href="sample_document.pdf" download class="download-btn">📄 Download Sample PDF</a>
+    <a href="sample_data.zip" download class="download-btn" style="background:#17a2b8;">📦 Download Sample ZIP</a>
+  </div>
 
-    <div class="button-group">
-      <button type="submit" class="btn-submit">Submit Form</button>
-      <button type="button" id="generateBtn" class="btn-random">Fill Dummy Data</button>
-    </div>
-  </form>
+  <!-- 4. OUTBOUND CLICK TRACKING (click) -->
+  <div class="test-section">
+    <h3>4. Outbound Link Clicks (`click`)</h3>
+    <p>GA4 tracks when a user clicks a link that leaves your current domain:</p>
+    <a href="https://www.google.com" target="_blank" rel="noopener">Open External Link (Google.com)</a>
+  </div>
 
-  <p id="status"></p>
+  <!-- 5. EMBEDDED YOUTUBE VIDEO (video_start, video_progress, video_complete) -->
+  <div class="test-section">
+    <h3>5. Embedded Video Engagement (`video_start`, `video_progress`)</h3>
+    <p>Requires <code>enablejsapi=1</code> in the iframe URL for GA4 to listen to YouTube events:</p>
+    <iframe 
+      width="100%" 
+      height="315" 
+      src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1" 
+      title="YouTube video player" 
+      frameborder="0" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <!-- 6. SCROLL TRACKING (scroll) -->
+  <div class="test-section">
+    <h3>6. Scroll Depth (`scroll`)</h3>
+    <p>Scroll down to the very bottom of the box below to reach the 90% vertical threshold required to fire GA4's native <code>scroll</code> event.</p>
+    <div class="scroll-spacer">
+      <p>↓↓↓ Keep Scrolling to Hit 90% Vertical Depth ↓↓↓</p>
+    </div>
+    <p style="text-align: center; font-weight: bold; margin-top: 20px;">🎉 You reached the bottom threshold!</p>
+  </div>
 
   <script>
-    // Generates mathematically obvious dummy identifiers that bypass PII detection
+    // Dummy Data Generator
     function fillDummyData() {
       const randId = Math.floor(100000 + Math.random() * 900000);
-      
       document.getElementById('name').value = `Test_User_${randId}`;
       document.getElementById('phone').value = `000-000-0000`;
-      document.getElementById('email').value = `dummy_user_${randId}@example.com`; // example.com is RFC standard reserved dummy domain
-      document.getElementById('description').value = `Synthetic event string for event verification batch #${randId}.`;
+      document.getElementById('email').value = `dummy_user_${randId}@example.com`;
+      document.getElementById('description').value = `Verification test payload #${randId}.`;
     }
 
     document.getElementById('generateBtn').addEventListener('click', fillDummyData);
 
+    // Custom Form Handler
     document.getElementById('testForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-
       const name = document.getElementById('name').value;
       const phone = document.getElementById('phone').value;
       const email = document.getElementById('email').value;
       const description = document.getElementById('description').value;
 
-      gtag('event', 'form_submission', {
-        'form_name': 'Synthetic Test Form',
+      // Custom event call alongside GA4's automatic form_submit
+      gtag('event', 'custom_form_complete', {
+        'form_name': 'Enhanced Measurement Suite Form',
         'test_user_name': name,
         'test_user_phone': phone,
         'test_user_email': email,
@@ -125,9 +199,7 @@
         'debug_mode': true
       });
 
-      document.getElementById('status').innerText = 'Synthetic event sent to G-5W9JKQE37K!';
-      console.log('gtag payload fired:', { name, phone, email, description });
-      
+      document.getElementById('status').innerText = 'Event sent to GA4 DebugView!';
       this.reset();
     });
   </script>
