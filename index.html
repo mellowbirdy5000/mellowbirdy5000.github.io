@@ -8,13 +8,52 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- PWA Setup -->
-  <meta name="theme-color" content="#4f46e5">
-  <link rel="apple-touch-icon" href="https://via.placeholder.com/192">
-  <link id="pwa-manifest" rel="manifest">
+  <!-- ========================================================= -->
+  <!-- BOOKING MAPPING CONFIGURATION (Service -> User -> Location) -->
+  <!-- ========================================================= -->
+  <script type="application/json" id="booking-map">
+  {
+    "Haircut & Styling": {
+      "new": {
+        "Downtown Branch": "https://example.com/book/haircut/downtown-new",
+        "Uptown Branch": "https://example.com/book/haircut/uptown-new",
+        "Suburbs Branch": ""
+      },
+      "existing": {
+        "Downtown Branch": "https://example.com/book/haircut/downtown-existing",
+        "Uptown Branch": "",
+        "Suburbs Branch": "https://example.com/book/haircut/suburbs-existing"
+      }
+    },
+    "Spa & Massage": {
+      "new": {
+        "Downtown Branch": "https://example.com/book/spa/downtown-new",
+        "Uptown Branch": "",
+        "Suburbs Branch": "https://example.com/book/spa/suburbs-new"
+      },
+      "existing": {
+        "Downtown Branch": "https://example.com/book/spa/downtown-existing",
+        "Uptown Branch": "https://example.com/book/spa/uptown-existing",
+        "Suburbs Branch": ""
+      }
+    },
+    "Consultation": {
+      "new": {
+        "Downtown Branch": "https://example.com/book/consult/downtown-new",
+        "Uptown Branch": "https://example.com/book/consult/uptown-new",
+        "Suburbs Branch": "https://example.com/book/consult/suburbs-new"
+      },
+      "existing": {
+        "Downtown Branch": "",
+        "Uptown Branch": "",
+        "Suburbs Branch": ""
+      }
+    }
+  }
+  </script>
 
   <style>
-    /* Smooth CSS Transform & Fade Transitions for Performance */
+    /* Lightweight, Hardware-Accelerated Fade & Scale Transition */
     .page-step {
       display: none;
       opacity: 0;
@@ -35,10 +74,10 @@
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-screen flex items-center justify-center p-4 selection:bg-indigo-500 selection:text-white">
 
-  <!-- Main Container -->
+  <!-- Main Responsive Container -->
   <main class="w-full max-w-md bg-slate-800 rounded-2xl shadow-2xl border border-slate-700/60 overflow-hidden relative min-h-[480px] flex flex-col justify-between p-6 md:p-8">
 
-    <!-- Progress / Step Indicator Header -->
+    <!-- Step Header -->
     <header id="step-header" class="w-full flex items-center justify-between pb-4 mb-4 border-b border-slate-700/50 hidden">
       <button id="btn-back" onclick="goToPreviousStep()" class="text-xs font-semibold text-slate-400 hover:text-white flex items-center gap-1 transition-colors">
         &larr; Back
@@ -66,8 +105,19 @@
       </section>
 
 
-      <!-- ================= PAGE 2: User Type Selection ================= -->
+      <!-- ================= PAGE 2: Service Selection ================= -->
       <section id="page-2" class="page-step">
+        <h2 class="text-2xl font-bold text-white mb-2">Select a Service</h2>
+        <p class="text-slate-400 text-sm mb-6">Choose the service you'd like to book today.</p>
+        
+        <div id="service-list" class="space-y-3">
+          <!-- Dynamically populated from JSON keys -->
+        </div>
+      </section>
+
+
+      <!-- ================= PAGE 3: User Type Selection ================= -->
+      <section id="page-3" class="page-step">
         <h2 class="text-2xl font-bold text-white mb-2">Who is this booking for?</h2>
         <p class="text-slate-400 text-sm mb-6">Select an option to help us tailor your booking experience.</p>
         
@@ -91,10 +141,10 @@
       </section>
 
 
-      <!-- ================= PAGE 3: Location Selection ================= -->
-      <section id="page-3" class="page-step">
+      <!-- ================= PAGE 4: Location Selection ================= -->
+      <section id="page-4" class="page-step">
         <h2 class="text-2xl font-bold text-white mb-2">Select Location</h2>
-        <p class="text-slate-400 text-sm mb-6">Choose your preferred branch. Unavailable options are disabled based on your customer status.</p>
+        <p class="text-slate-400 text-sm mb-6">Choose your preferred branch. Unavailable options are disabled based on your selection.</p>
 
         <div id="location-list" class="space-y-3">
           <!-- Dynamically populated via JS -->
@@ -102,8 +152,8 @@
       </section>
 
 
-      <!-- ================= PAGE 4: Redirect / Confirmation ================= -->
-      <section id="page-4" class="page-step text-center">
+      <!-- ================= PAGE 5: Redirect / Confirmation ================= -->
+      <section id="page-5" class="page-step text-center">
         <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-500/30">
           <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -125,65 +175,51 @@
     </footer>
   </main>
 
-  <!-- Embedded JSON Configuration & App Logic -->
-  <script type="application/json" id="booking-map">
-  {
-    "new": {
-      "Downtown Branch": "https://example.com/book/downtown-new",
-      "Uptown Branch": "https://example.com/book/uptown-new",
-      "Suburbs Branch": ""
-    },
-    "existing": {
-      "Downtown Branch": "https://example.com/book/downtown-existing",
-      "Uptown Branch": "",
-      "Suburbs Branch": "https://example.com/book/suburbs-existing"
-    }
-  }
-  </script>
-
+  <!-- App Logic -->
   <script>
-    // --- APP STATE ---
     let bookingConfig = {};
+    let selectedService = null;
     let selectedUserType = null;
     let selectedLocation = null;
     let currentStep = 1;
 
-    // Load JSON mapping from embedded script block
+    // Load JSON mapping from top script block
     try {
       bookingConfig = JSON.parse(document.getElementById('booking-map').textContent);
     } catch (e) {
       console.error("Failed to parse booking mapping JSON", e);
     }
 
-    // --- NAVIGATION ENGINE ---
+    // Initialize Services List on Load
+    document.addEventListener("DOMContentLoaded", renderServices);
+
     function goToStep(nextStep) {
       const currentEl = document.getElementById(`page-${currentStep}`);
       const nextEl = document.getElementById(`page-${nextStep}`);
 
       if (!nextEl || currentStep === nextStep) return;
 
-      // Update Header
+      // Update Header (Steps 2 to 4 show progress)
       const header = document.getElementById('step-header');
       const stepCount = document.getElementById('step-count');
-      if (nextStep > 1 && nextStep < 4) {
+      if (nextStep > 1 && nextStep < 5) {
         header.classList.remove('hidden');
-        stepCount.textContent = `Step ${nextStep - 1} of 2`;
+        stepCount.textContent = `Step ${nextStep - 1} of 3`;
       } else {
         header.classList.add('hidden');
       }
 
-      // Animate out current
+      // Animate out current step
       currentEl.classList.remove('visible');
       
       setTimeout(() => {
         currentEl.classList.remove('active');
         
-        // Prepare and animate in next
-        if (nextStep === 3) renderLocations();
+        // Render step-specific dynamic options
+        if (nextStep === 4) renderLocations();
         
         nextEl.classList.add('active');
-        // Force reflow to ensure CSS transition triggers cleanly
-        void nextEl.offsetWidth; 
+        void nextEl.offsetWidth; // Force reflow
         nextEl.classList.add('visible');
         
         currentStep = nextStep;
@@ -196,17 +232,43 @@
       }
     }
 
-    // --- STEP LOGIC ---
-    function selectUserType(type) {
-      selectedUserType = type;
+    // Step 2: Service Selection Logic
+    function renderServices() {
+      const container = document.getElementById('service-list');
+      container.innerHTML = '';
+
+      Object.keys(bookingConfig).forEach(serviceName => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = "w-full p-4 rounded-xl border border-slate-700 bg-slate-800/80 hover:bg-indigo-600/20 hover:border-indigo-500 text-left transition-all flex items-center justify-between group";
+        btn.onclick = () => selectService(serviceName);
+        btn.innerHTML = `
+          <div>
+            <div class="font-semibold text-white group-hover:text-indigo-300">${serviceName}</div>
+          </div>
+          <span class="text-slate-500 group-hover:text-indigo-400">&rarr;</span>
+        `;
+        container.appendChild(btn);
+      });
+    }
+
+    function selectService(serviceName) {
+      selectedService = serviceName;
       goToStep(3);
     }
 
+    // Step 3: User Type Selection Logic
+    function selectUserType(type) {
+      selectedUserType = type;
+      goToStep(4);
+    }
+
+    // Step 4: Location Selection Logic
     function renderLocations() {
       const container = document.getElementById('location-list');
       container.innerHTML = '';
 
-      const locations = bookingConfig[selectedUserType] || {};
+      const locations = (bookingConfig[selectedService] && bookingConfig[selectedService][selectedUserType]) || {};
 
       Object.entries(locations).forEach(([locationName, redirectUrl]) => {
         const hasUrl = Boolean(redirectUrl && redirectUrl.trim().length > 0);
@@ -230,7 +292,7 @@
           btn.innerHTML = `
             <div>
               <div class="font-semibold text-slate-500">${locationName}</div>
-              <div class="text-xs text-rose-400/80">Unavailable for selected customer type</div>
+              <div class="text-xs text-rose-400/80">Unavailable for selected option</div>
             </div>
             <span class="text-xs bg-slate-800 px-2 py-1 rounded text-slate-600 border border-slate-700/50">Disabled</span>
           `;
@@ -240,50 +302,18 @@
       });
     }
 
+    // Step 5: Final Redirect Logic
     function handleLocationSelect(locationName, url) {
       selectedLocation = locationName;
       const redirectBtn = document.getElementById('redirect-link');
       redirectBtn.href = url;
       
-      goToStep(4);
+      goToStep(5);
 
-      // Auto redirect after short delay (optional UX touch)
       setTimeout(() => {
         window.location.href = url;
       }, 1800);
     }
-
-    // --- INLINE PWA GENERATOR (Manifest & Service Worker) ---
-    (function initPWA() {
-      // Create Manifest Data URL
-      const manifest = {
-        name: "QuickBook SPA",
-        short_name: "QuickBook",
-        start_url: ".",
-        display: "standalone",
-        background_color: "#0f172a",
-        theme_color: "#4f46e5",
-        icons: [{
-          src: "https://via.placeholder.com/192",
-          sizes: "192x192",
-          type: "image/png"
-        }]
-      };
-      const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
-      document.getElementById('pwa-manifest').href = URL.createObjectURL(manifestBlob);
-
-      // Register Dummy / Offline-Ready Service Worker via Blob
-      if ('serviceWorker' in navigator) {
-        const swCode = `
-          self.addEventListener('install', (e) => self.skipWaiting());
-          self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
-          self.addEventListener('fetch', (e) => e.respondWith(fetch(e.request).catch(() => new Response('Offline'))));
-        `;
-        const swBlob = new Blob([swCode], { type: 'text/javascript' });
-        const swUrl = URL.createObjectURL(swBlob);
-        navigator.serviceWorker.register(swUrl).catch(err => console.log('SW registration skipped:', err));
-      }
-    })();
   </script>
 </body>
 </html>
