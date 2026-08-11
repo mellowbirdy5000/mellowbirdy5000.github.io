@@ -9,7 +9,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- ========================================================= -->
-  <!-- 1. OUTLETS DATASET (Uses Short, Unique 'id' Keys)          -->
+  <!-- 1. OUTLETS DATASET                                        -->
   <!-- ========================================================= -->
   <script type="application/json" id="outlets-data">
   [
@@ -59,7 +59,27 @@
   </script>
 
   <!-- ========================================================= -->
-  <!-- 2. BOOKING MATRIX (References Outlet IDs - No Duplication) -->
+  <!-- 2. SERVICE DURATION DATASET                               -->
+  <!-- ========================================================= -->
+  <script type="application/json" id="service-duration-data">
+  {
+    "Acupuncture & Consultation": [
+      { "duration_mins": 30, "label": "30 Mins (Standard Session)" },
+      { "duration_mins": 60, "label": "60 Mins (Extended / Intensive)" }
+    ],
+    "TCM Herbal Consultation": [
+      { "duration_mins": 15, "label": "15 Mins (Express Check-in)" },
+      { "duration_mins": 30, "label": "30 Mins (Full Herbal Assessment)" }
+    ],
+    "Cupping / Tuina Therapy": [
+      { "duration_mins": 30, "label": "30 Mins (Targeted Relief)" },
+      { "duration_mins": 60, "label": "60 Mins (Full Body Therapy)" }
+    ]
+  }
+  </script>
+
+  <!-- ========================================================= -->
+  <!-- 3. BOOKING MATRIX (References Outlet IDs)                 -->
   <!-- ========================================================= -->
   <script type="application/json" id="booking-map">
   {
@@ -153,27 +173,33 @@
     <!-- Page Content Container -->
     <div class="flex-1 flex flex-col justify-center">
 
-      <!-- ================= PAGE 1: Welcome ================= -->
-      <section id="page-1" class="page-step active visible text-center">
-        <div class="w-16 h-16 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-6 border border-orange-200 shadow-sm">
-          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-          </svg>
+      <!-- ================= PAGE 1: Welcome & Service Selection ================= -->
+      <section id="page-1" class="page-step active visible">
+        <div class="text-center mb-6">
+          <div class="w-14 h-14 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 border border-orange-200 shadow-sm">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <h1 class="text-2xl font-bold tracking-tight text-gray-900 mb-1">Welcome!</h1>
+          <p class="text-custom-grey text-xs leading-relaxed">
+            Select a service below to start booking your appointment.
+          </p>
         </div>
-        <h1 class="text-3xl font-bold tracking-tight text-gray-900 mb-2">Welcome!</h1>
-        <p class="text-custom-grey text-sm mb-8 leading-relaxed">
-          Book your appointment in just a few quick steps. Fast, seamless, and hassle-free.
-        </p>
-        <a href="#page-2" class="inline-block text-center w-full py-3.5 px-6 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-xl shadow-lg shadow-orange-500/20 active:scale-[0.98] transition-all">
-          Get Started &rarr;
-        </a>
+
+        <div id="service-list" class="space-y-3">
+          <!-- Dynamically populated anchor links -->
+        </div>
       </section>
 
-      <!-- ================= PAGE 2: Service Selection ================= -->
+      <!-- ================= PAGE 2: Duration Selection (NEW) ================= -->
       <section id="page-2" class="page-step">
-        <h2 class="text-2xl font-bold text-gray-900 mb-2">Select a Service</h2>
-        <p class="text-custom-grey text-sm mb-6">Choose the service you'd like to book today.</p>
-        <div id="service-list" class="space-y-3"></div>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">Select Duration</h2>
+        <p class="text-custom-grey text-sm mb-6">Choose how long you want your treatment session to be.</p>
+        
+        <div id="duration-list" class="space-y-3">
+          <!-- Dynamically populated based on selected service -->
+        </div>
       </section>
 
       <!-- ================= PAGE 3: User Type Selection ================= -->
@@ -233,18 +259,20 @@
   <!-- App Logic & Stateful Hash Router -->
   <script>
     let outletsData = [];
+    let serviceDurationData = {};
     let bookingConfig = {};
     let currentStep = 1;
     let redirectTimeout = null;
 
     try {
       outletsData = JSON.parse(document.getElementById('outlets-data').textContent);
+      serviceDurationData = JSON.parse(document.getElementById('service-duration-data').textContent);
       bookingConfig = JSON.parse(document.getElementById('booking-map').textContent);
     } catch (e) {
       console.error("Failed to parse JSON datasets", e);
     }
 
-    // Parse state from URL Hash (#page-3?service=Acupuncture...&type=new)
+    // Parse state from URL Hash (#page-2?service=...&duration=...&type=...)
     function parseHashState() {
       const hash = window.location.hash || "#page-1";
       const [pagePart, queryPart] = hash.split("?");
@@ -254,16 +282,18 @@
 
       const params = new URLSearchParams(queryPart || "");
       const service = params.get("service") ? decodeURIComponent(params.get("service")) : null;
+      const duration = params.get("duration") || null;
       const type = params.get("type") || null;
 
-      return { step, service, type };
+      return { step, service, duration, type };
     }
 
     // Build URL hash with encoded params
-    function createHash(step, service = null, type = null) {
+    function createHash(step, service = null, duration = null, type = null) {
       let hash = `#page-${step}`;
       const params = new URLSearchParams();
       if (service) params.set("service", service);
+      if (duration) params.set("duration", duration);
       if (type) params.set("type", type);
       
       const queryString = params.toString();
@@ -279,13 +309,17 @@
     function handleHashChange() {
       const state = parseHashState();
 
-      // Guard redirect if user directly accesses later steps without selections
-      if (state.step === 3 && !state.service) {
-        window.location.hash = createHash(2);
+      // Guard redirects if required previous selections are missing
+      if (state.step === 2 && !state.service) {
+        window.location.hash = createHash(1);
         return;
       }
-      if (state.step === 4 && (!state.service || !state.type)) {
-        window.location.hash = createHash(2);
+      if (state.step === 3 && (!state.service || !state.duration)) {
+        window.location.hash = createHash(1);
+        return;
+      }
+      if (state.step === 4 && (!state.service || !state.duration || !state.type)) {
+        window.location.hash = createHash(1);
         return;
       }
 
@@ -299,8 +333,8 @@
       const linkExisting = document.getElementById('link-user-existing');
 
       if (linkNew && linkExisting) {
-        linkNew.href = createHash(4, state.service, "new");
-        linkExisting.href = createHash(4, state.service, "existing");
+        linkNew.href = createHash(4, state.service, state.duration, "new");
+        linkExisting.href = createHash(4, state.service, state.duration, "existing");
       }
     }
 
@@ -319,15 +353,15 @@
         header.classList.remove('hidden');
         stepCount.textContent = `Step ${nextStep - 1} of 3`;
         
-        // Dynamically point Back link to the previous step while preserving query state
         if (nextStep === 2) backBtn.href = createHash(1);
-        if (nextStep === 3) backBtn.href = createHash(2);
-        if (nextStep === 4) backBtn.href = createHash(3, state.service);
+        if (nextStep === 3) backBtn.href = createHash(2, state.service);
+        if (nextStep === 4) backBtn.href = createHash(3, state.service, state.duration);
       } else {
         header.classList.add('hidden');
       }
 
       if (currentStep === nextStep && nextEl.classList.contains('active')) {
+        if (nextStep === 2) renderDurations(state);
         if (nextStep === 4) renderLocations(state);
         return;
       }
@@ -337,6 +371,7 @@
       setTimeout(() => {
         document.querySelectorAll('.page-step').forEach(el => el.classList.remove('active', 'visible'));
         
+        if (nextStep === 2) renderDurations(state);
         if (nextStep === 4) renderLocations(state);
         
         nextEl.classList.add('active');
@@ -347,14 +382,14 @@
       }, 300);
     }
 
-    // Step 2: Render Service Links carrying the target service in the URL anchor
+    // Step 1: Render Service Links
     function renderServices() {
       const container = document.getElementById('service-list');
       container.innerHTML = '';
 
       Object.keys(bookingConfig).forEach(serviceName => {
         const a = document.createElement('a');
-        a.href = createHash(3, serviceName);
+        a.href = createHash(2, serviceName);
         a.className = "w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all flex items-center justify-between group block";
         a.innerHTML = `
           <div><div class="font-semibold text-gray-900 group-hover:text-orange-600">${serviceName}</div></div>
@@ -364,7 +399,33 @@
       });
     }
 
-    // Step 4: Location Selection (Looks up URLs using Outlet ID)
+    // Step 2: Render Duration Links based on Service
+    function renderDurations(state) {
+      const container = document.getElementById('duration-list');
+      container.innerHTML = '';
+
+      const durations = serviceDurationData[state.service] || [];
+
+      durations.forEach(item => {
+        const a = document.createElement('a');
+        a.href = createHash(3, state.service, item.duration_mins);
+        a.className = "w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all flex items-center justify-between group block";
+        a.innerHTML = `
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-xs shrink-0 border border-orange-200">
+              ${item.duration_mins}m
+            </div>
+            <div>
+              <div class="font-semibold text-gray-900 group-hover:text-orange-600">${item.label}</div>
+            </div>
+          </div>
+          <span class="text-custom-grey group-hover:text-orange-500">&rarr;</span>
+        `;
+        container.appendChild(a);
+      });
+    }
+
+    // Step 4: Location Selection
     function renderLocations(state) {
       const container = document.getElementById('location-list');
       container.innerHTML = '';
@@ -372,13 +433,12 @@
       const availableMappings = (bookingConfig[state.service] && bookingConfig[state.service][state.type]) || {};
 
       outletsData.forEach(outlet => {
-        // Look up by ID instead of long outlet name string
         const redirectUrl = availableMappings[outlet.id] || "";
         const hasUrl = Boolean(redirectUrl && redirectUrl.trim().length > 0);
 
         if (hasUrl) {
           const a = document.createElement('a');
-          a.href = createHash(5, state.service, state.type);
+          a.href = createHash(5, state.service, state.duration, state.type);
           a.className = "w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all flex flex-col gap-1.5 group block";
           a.onclick = () => handleLocationSelect(redirectUrl);
           a.innerHTML = `
@@ -392,7 +452,7 @@
               <svg class="w-3.5 h-3.5 text-orange-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
-              <span class="">${outlet.operating_hours || 'Hours unavailable'}</span>
+              <span class="truncate">${outlet.operating_hours || 'Hours unavailable'}</span>
             </div>
           `;
           container.appendChild(a);
@@ -410,7 +470,7 @@
               <svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
-              <span class="">${outlet.operating_hours || 'Hours unavailable'}</span>
+              <span class="truncate">${outlet.operating_hours || 'Hours unavailable'}</span>
             </div>
           `;
           container.appendChild(div);
@@ -418,7 +478,7 @@
       });
     }
 
-    // Step 5: Redirect to target booking page
+    // Step 5: Redirect
     function handleLocationSelect(url) {
       const redirectBtn = document.getElementById('redirect-link');
       redirectBtn.href = url;
