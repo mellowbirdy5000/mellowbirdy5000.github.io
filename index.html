@@ -59,72 +59,218 @@
   </script>
 
   <!-- ========================================================= -->
-  <!-- 2. SERVICE DURATION DATASET                               -->
-  <!-- ========================================================= -->
-  <script type="application/json" id="service-duration-data">
-  {
-    "First Visit Consultation": [
-      { "duration_mins": 60, "label": "60 Mins Initial Consultation & Assessment" }
-    ],
-    "Acupuncture & Consultation": [
-      { "duration_mins": 30, "label": "30 Mins (Standard Session)" },
-      { "duration_mins": 60, "label": "60 Mins (Extended / Intensive)" }
-    ],
-    "TCM Herbal Consultation": [
-      { "duration_mins": 15, "label": "15 Mins (Express Check-in)" },
-      { "duration_mins": 30, "label": "30 Mins (Full Herbal Assessment)" }
-    ],
-    "Cupping / Tuina Therapy": [
-      { "duration_mins": 30, "label": "30 Mins (Targeted Relief)" },
-      { "duration_mins": 60, "label": "60 Mins (Full Body Therapy)" }
-    ]
-  }
-  </script>
-
-  <!-- ========================================================= -->
-  <!-- 3. BOOKING MATRIX                                         -->
+  <!-- 2. BOOKING MATRIX                                         -->
   <!-- ========================================================= -->
   <script type="application/json" id="booking-map">
   {
     "First Visit Consultation": {
-      "new": {
-        "cbd": "https://example.com/book/first-visit/cbd",
-        "east-coast": "https://example.com/book/first-visit/east-coast",
-        "jurong-east": "https://example.com/book/first-visit/jurong",
-        "orchard": "https://example.com/book/first-visit/orchard",
-        "punggol": "https://example.com/book/first-visit/punggol",
-        "upper-thomson": "https://example.com/book/first-visit/thomson"
-      }
+      "cbd": [ { "mins": 60, "label": "CBD 60 Mins First Visit Consultation", "url": "https://example.com/book/consultation/cbd-60" } ],
+      "east-coast": [ { "mins": 60, "label": "EC 60 Mins First Visit Consultation", "url": "https://example.com/book/consultation/east-60" } ],
+      "jurong-east": [ { "mins": 60, "label": "JE 60 Mins First Visit Consultation", "url": "https://example.com/book/consultation/jurong-60" } ],
+      "orchard": [ { "mins": 60, "label": "OC 60 Mins First Visit Consultation", "url": "https://example.com/book/consultation/orchard-60" } ],
+      "punggol": [ { "mins": 60, "label": "PDD 60 Mins First Visit Consultation", "url": "https://example.com/book/consultation/punggol-60" } ],
+      "upper-thomson": [ { "mins": 60, "label": "UT 60 Mins First Visit Consultation", "url": "https://example.com/book/consultation/thomson-60" } ]
     },
-    "Acupuncture & Consultation": {
-      "existing": {
-        "cbd": "https://example.com/book/acu/cbd-exist",
-        "east-coast": "https://example.com/book/acu/east-exist",
-        "jurong-east": "",
-        "orchard": "https://example.com/book/acu/orchard-exist",
-        "punggol": "",
-        "upper-thomson": "https://example.com/book/acu/thomson-exist"
-      }
+    "Consultation": {
+      "cbd": [
+        { "mins": 15, "label": "CBD 15 Mins Consultation", "url": "https://example.com/book/consultation/cbd-15" },
+        { "mins": 30, "label": "CBD 30 Mins Consultation", "url": "https://example.com/book/consultation/cbd-30" },
+        { "mins": 45, "label": "CBD 45 Mins Consultation", "url": "https://example.com/book/consultation/cbd-45" }
+      ],
+      "east-coast": [
+        { "mins": 30, "label": "EC 30 Mins Consultation", "url": "https://example.com/book/consultation/east-30" },
+        { "mins": 45, "label": "EC 45 Mins Consultation", "url": "https://example.com/book/consultation/east-45" },
+        { "mins": 60, "label": "EC 60 Mins Consultation", "url": "https://example.com/book/consultation/east-60" }
+      ],
+      "jurong-east": [
+        { "mins": 30, "label": "JE 30 Mins Consultation", "url": "https://example.com/book/consultation/jurong-30" },
+        { "mins": 45, "label": "JE 45 Mins Consultation", "url": "https://example.com/book/consultation/jurong-45" },
+        { "mins": 60, "label": "JE 60 Mins Consultation", "url": "https://example.com/book/consultation/jurong-60" }
+      ],
+      "orchard": [
+        { "mins": 30, "label": "OC 30 Mins Consultation", "url": "https://example.com/book/consultation/orchard-30" },
+        { "mins": 45, "label": "OC 45 Mins Consultation", "url": "https://example.com/book/consultation/orchard-45" },
+        { "mins": 60, "label": "OC 60 Mins Consultation", "url": "https://example.com/book/consultation/orchard-60" }
+      ],
+      "punggol": [
+        { "mins": 30, "label": "PDD 30 Mins Consultation", "url": "https://example.com/book/consultation/punggol-30" },
+        { "mins": 45, "label": "PDD 45 Mins Consultation", "url": "https://example.com/book/consultation/punggol-45" },
+        { "mins": 60, "label": "PDD 60 Mins Consultation", "url": "https://example.com/book/consultation/punggol-60" }
+      ],
+      "upper-thomson": [
+        { "mins": 30, "label": "UT 30 Mins Consultation", "url": "https://example.com/book/consultation/thomson-30" },
+        { "mins": 45, "label": "UT 45 Mins Consultation", "url": "https://example.com/book/consultation/thomson-45" },
+        { "mins": 60, "label": "UT 60 Mins Consultation", "url": "https://example.com/book/consultation/thomson-60" }
+      ]
     },
-    "TCM Herbal Consultation": {
-      "existing": {
-        "cbd": "https://example.com/book/herbs/cbd-exist",
-        "east-coast": "",
-        "jurong-east": "https://example.com/book/herbs/jurong-exist",
-        "orchard": "",
-        "punggol": "https://example.com/book/herbs/punggol-exist",
-        "upper-thomson": ""
-      }
+    "Pediatric Consultation": {
+      "cbd": [],
+      "east-coast": [
+        { "mins": 30, "label": "EC 30 Mins Pediatric Consultation", "url": "https://example.com/book/pediatric/east-30" }
+      ],
+      "jurong-east": [
+        { "mins": 30, "label": "JE 30 Mins Pediatric Consultation", "url": "https://example.com/book/pediatric/jurong-30" }
+      ],
+      "orchard": [
+        { "mins": 30, "label": "OC 30 Mins Pediatric Consultation", "url": "https://example.com/book/pediatric/orchard-30" }
+      ],
+      "punggol": [
+        { "mins": 30, "label": "PDD 30 Mins Pediatric Consultation", "url": "https://example.com/book/pediatric/punggol-30" }
+      ],
+      "upper-thomson": [
+        { "mins": 30, "label": "UT 30 Mins Pediatric Consultation", "url": "https://example.com/book/pediatric/thomson-30" }
+      ]
     },
-    "Cupping / Tuina Therapy": {
-      "existing": {
-        "cbd": "https://example.com/book/tuina/cbd-exist",
-        "east-coast": "https://example.com/book/tuina/east-exist",
-        "jurong-east": "https://example.com/book/tuina/jurong-exist",
-        "orchard": "https://example.com/book/tuina/orchard-exist",
-        "punggol": "https://example.com/book/tuina/punggol-exist",
-        "upper-thomson": "https://example.com/book/tuina/thomson-exist"
-      }
+    "Lead Physician Consultation": {
+      "cbd": [],
+      "east-coast": [],
+      "jurong-east": [],
+      "orchard": [
+        { "mins": 30, "label": "OC 30 Mins Lead Phy Consultation", "url": "https://example.com/book/lead-phy/orchard-30" },
+        { "mins": 60, "label": "OC 60 Mins Lead Phy Consultation", "url": "https://example.com/book/lead-phy/orchard-60" }
+      ],
+      "punggol": [],
+      "upper-thomson": [
+        { "mins": 30, "label": "UT 30 Mins Lead Phy Consultation", "url": "https://example.com/book/lead-phy/thomson-30" },
+        { "mins": 60, "label": "UT 60 Mins Lead Phy Consultation", "url": "https://example.com/book/lead-phy/thomson-60" }
+      ]
+    },
+    "Lead Physician Pediatric Consultation": {
+      "cbd": [],
+      "east-coast": [],
+      "jurong-east": [],
+      "orchard": [
+        { "mins": 30, "label": "OC 30 Mins Lead Phy Pediatric Consultation", "url": "https://example.com/book/lead-phy-pediatric/orchard-30" }
+      ],
+      "punggol": [],
+      "upper-thomson": [
+        { "mins": 30, "label": "UT 30 Mins Lead Phy Pediatric Consultation", "url": "https://example.com/book/lead-phy-pediatric/thomson-30" }
+      ]
+    },
+    "Electro Lymphatic Therapy (ELT)": {
+      "cbd": [
+        { "mins": 30, "label": "CBD 30 Mins Head/Face ELT", "url": "https://example.com/book/elt/cbd-30" },
+        { "mins": 60, "label": "CBD 60 Mins Precision ELT", "url": "https://example.com/book/elt/cbd-60" },
+        { "mins": 75, "label": "CBD 75 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/cbd-75" },
+        { "mins": 105, "label": "CBD 105 Mins Deep ELT", "url": "https://example.com/book/elt/cbd-105" }
+      ],
+      "east-coast": [
+        { "mins": 75, "label": "EC 75 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/east-75" },
+        { "mins": 95, "label": "EC 95 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/east-95" }
+      ],
+      "jurong-east": [
+        { "mins": 75, "label": "JE 75 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/jurong-75" },
+        { "mins": 95, "label": "JE 95 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/jurong-95" }
+      ],
+      "orchard": [],
+      "punggol": [
+        { "mins": 75, "label": "PDD 75 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/punggol-75" },
+        { "mins": 95, "label": "PDD 95 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/punggol-95" }
+      ],
+      "upper-thomson": [
+        { "mins": 75, "label": "UT 75 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/thomson-75" },
+        { "mins": 95, "label": "UT 95 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/thomson-95" }
+      ]
+    },
+    "Cell Pro Therapy": {
+      "cbd": [
+        { "mins": 30, "label": "CBD Cell Pro Therapy", "url": "https://example.com/book/cell-pro/cbd-30" }
+      ],
+      "east-coast": [
+        { "mins": 30, "label": "EC Cell Pro Therapy", "url": "https://example.com/book/cell-pro/east-30" }
+      ],
+      "jurong-east": [
+        { "mins": 30, "label": "JE Cell Pro Therapy", "url": "https://example.com/book/cell-pro/jurong-30" }
+      ],
+      "orchard": [
+        { "mins": 30, "label": "OC Cell Pro Therapy", "url": "https://example.com/book/cell-pro/orchard-30" }
+      ],
+      "punggol": [
+        { "mins": 30, "label": "PDD Cell Pro Therapy", "url": "https://example.com/book/cell-pro/punggol-30" },
+        { "mins": 30, "label": "PDD Cell Pro Therapy Lite", "url": "https://example.com/book/cell-pro/punggol-30-lite" }
+      ],
+      "upper-thomson": [
+        { "mins": 30, "label": "UT Cell Pro Therapy", "url": "https://example.com/book/cell-pro/thomson-30" }
+      ]
+    },
+    "Far Infrared Therapy": {
+      "cbd": [],
+      "east-coast": [
+        { "mins": 30, "label": "EC Far Infrared Therapy", "url": "https://example.com/book/far-infrared/east-30" }
+      ],
+      "jurong-east": [
+        { "mins": 30, "label": "JE Far Infrared Therapy", "url": "https://example.com/book/far-infrared/jurong-30" }
+      ],
+      "orchard": [
+        { "mins": 30, "label": "OC Far Infrared Therapy", "url": "https://example.com/book/far-infrared/orchard-30" }
+      ],
+      "punggol": [
+        { "mins": 30, "label": "PDD Far Infrared Therapy", "url": "https://example.com/book/far-infrared/punggol-30" }
+      ],
+      "upper-thomson": [
+        { "mins": 30, "label": "UT Far Infrared Therapy", "url": "https://example.com/book/far-infrared/thomson-30" }
+      ]
+    },
+    "Health Coaching": {
+      "cbd": [],
+      "east-coast": [
+        { "mins": 30, "label": "EC 30 Mins Health Coaching", "url": "https://example.com/book/health-coaching/east-30" },
+        { "mins": 45, "label": "EC 45 Mins Health Coaching", "url": "https://example.com/book/health-coaching/east-45" },
+        { "mins": 60, "label": "EC 60 Mins Health Coaching", "url": "https://example.com/book/health-coaching/east-60" }
+      ],
+      "jurong-east": [
+        { "mins": 30, "label": "JE 30 Mins Health Coaching", "url": "https://example.com/book/health-coaching/jurong-30" },
+        { "mins": 45, "label": "JE 45 Mins Health Coaching", "url": "https://example.com/book/health-coaching/jurong-45" },
+        { "mins": 60, "label": "JE 60 Mins Health Coaching", "url": "https://example.com/book/health-coaching/jurong-60" }
+      ],
+      "orchard": [
+        { "mins": 30, "label": "OC 30 Mins Health Coaching", "url": "https://example.com/book/health-coaching/orchard-30" },
+        { "mins": 45, "label": "OC 45 Mins Health Coaching", "url": "https://example.com/book/health-coaching/orchard-45" },
+        { "mins": 60, "label": "OC 60 Mins Health Coaching", "url": "https://example.com/book/health-coaching/orchard-60" }
+      ],
+      "punggol": [
+        { "mins": 30, "label": "PDD 30 Mins Health Coaching", "url": "https://example.com/book/health-coaching/punggol-30" },
+        { "mins": 45, "label": "PDD 45 Mins Health Coaching", "url": "https://example.com/book/health-coaching/punggol-45" },
+        { "mins": 60, "label": "PDD 60 Mins Health Coaching", "url": "https://example.com/book/health-coaching/punggol-60" }
+      ],
+      "upper-thomson": [
+        { "mins": 30, "label": "UT 30 Mins Health Coaching", "url": "https://example.com/book/health-coaching/thomson-30" },
+        { "mins": 45, "label": "UT 45 Mins Health Coaching", "url": "https://example.com/book/health-coaching/thomson-45" },
+        { "mins": 60, "label": "UT 60 Mins Health Coaching", "url": "https://example.com/book/health-coaching/thomson-60" }
+      ]
+    },
+    "Explorative Demo": {
+      "cbd": [
+        { "mins": 10, "label": "CBD Explorative Demo", "url": "https://example.com/book/demo/cbd-10" }
+      ],
+      "east-coast": [],
+      "jurong-east": [],
+      "orchard": [],
+      "punggol": [
+        { "mins": 10, "label": "PDD Explorative Demo", "url": "https://example.com/book/demo/punggol-10" }
+      ],
+      "upper-thomson": []
+    },
+    "Wellness & Other Therapies": {
+      "cbd": [
+        { "mins": 30, "label": "CBD Vibro-acoustic Therapy", "url": "https://example.com/book/wellness/cbd-30" }
+      ],
+      "east-coast": [
+        { "mins": 30, "label": "EC 30 Mins Wellness Service", "url": "https://example.com/book/wellness/east-30" }
+      ],
+      "jurong-east": [
+        { "mins": 30, "label": "JE 1 Wellness Service", "url": "https://example.com/book/wellness/jurong-30-1" },
+        { "mins": 30, "label": "JE 2 Wellness Service", "url": "https://example.com/book/wellness/jurong-30-2" },
+        { "mins": 30, "label": "JE 3 Wellness Service", "url": "https://example.com/book/wellness/jurong-30-3" },
+        { "mins": 30, "label": "JE 30 Mins Wellness Service", "url": "https://example.com/book/wellness/jurong-30" }
+      ],
+      "orchard": [
+        { "mins": 30, "label": "OC 30 Mins Wellness Service", "url": "https://example.com/book/wellness/orchard-30" }
+      ],
+      "punggol": [],
+      "upper-thomson": [
+        { "mins": 30, "label": "UT 30 Mins Wellness Service", "url": "https://example.com/book/wellness/thomson-30" }
+      ]
     }
   }
   </script>
@@ -245,6 +391,7 @@
         </div>
 
         <div class="space-y-3">
+          <!-- Shortcut preserved: New customer routes straight to page 4 location selection for First Visit Consultation -->
           <a id="link-user-new" href="#page-4?type=new&service=First%20Visit%20Consultation&duration=60" class="btn-option group">
             <div>
               <div class="btn-option-title">New Customer</div>
@@ -274,7 +421,7 @@
       <!-- ================= PAGE 2: Service Selection ================= -->
       <section id="page-2" class="page-step">
         <h2 class="heading-primary">Select a Service</h2>
-        <p class="text-subtle">Choose the service you'd like to book today.</p>
+        <p class="text-subtle">Choose the service category you'd like to book today.</p>
         <div id="service-list" class="space-y-3"></div>
       </section>
 
@@ -318,14 +465,12 @@
   <!-- App Logic & Stateful Hash Router -->
   <script>
     let outletsData = [];
-    let serviceDurationData = {};
     let bookingConfig = {};
     let currentStep = 1;
     let redirectTimeout = null;
 
     try {
       outletsData = JSON.parse(document.getElementById('outlets-data').textContent);
-      serviceDurationData = JSON.parse(document.getElementById('service-duration-data').textContent);
       bookingConfig = JSON.parse(document.getElementById('booking-map').textContent);
     } catch (e) {
       console.error("Failed to parse JSON datasets", e);
@@ -390,7 +535,7 @@
       const params = new URLSearchParams(queryPart || "");
       const type = params.get("type") || null;
       const service = params.get("service") ? decodeURIComponent(params.get("service")) : null;
-      const duration = params.get("duration") || null;
+      const duration = params.get("duration") ? parseInt(params.get("duration"), 10) : null;
 
       return { step, type, service, duration };
     }
@@ -404,6 +549,13 @@
       
       const queryString = params.toString();
       return queryString ? `${hash}?${queryString}` : hash;
+    }
+
+    function resetListScrolls() {
+      ['location-list', 'service-list', 'duration-list'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.scrollTop = 0;
+      });
     }
 
     window.addEventListener("pageshow", checkPreviousSession);
@@ -450,6 +602,8 @@
 
       if (!nextEl) return;
 
+      resetListScrolls();
+
       const header = document.getElementById('step-header');
       const stepCount = document.getElementById('step-count');
       const backBtn = document.getElementById('btn-back');
@@ -494,6 +648,7 @@
       }, 300);
     }
 
+    // Step 2: Render Service List (Hides First Visit Consultation from Returning Customers)
     function renderServices(state) {
       const container = document.getElementById('service-list');
       container.innerHTML = '';
@@ -512,22 +667,42 @@
       });
     }
 
+    // Step 3: Render Unique Durations across ALL branches for this service
     function renderDurations(state) {
       const container = document.getElementById('duration-list');
       container.innerHTML = '';
 
-      const durations = serviceDurationData[state.service] || [];
+      const serviceLocations = bookingConfig[state.service] || {};
+      const durationMap = new Map();
 
-      durations.forEach(item => {
+      Object.values(serviceLocations).forEach(durationList => {
+        if (Array.isArray(durationList)) {
+          durationList.forEach(item => {
+            if (!durationMap.has(item.mins)) {
+              durationMap.set(item.mins, `${item.mins} Mins Session`);
+            }
+          });
+        }
+      });
+
+      const sortedMins = Array.from(durationMap.keys()).sort((a, b) => a - b);
+
+      if (sortedMins.length === 0) {
+        container.innerHTML = `<div class="text-sm text-gray-500 py-4 text-center">No durations available for this service.</div>`;
+        return;
+      }
+
+      sortedMins.forEach(mins => {
+        const label = durationMap.get(mins);
         const a = document.createElement('a');
-        a.href = createHash(4, state.type, state.service, item.duration_mins);
+        a.href = createHash(4, state.type, state.service, mins);
         a.className = "btn-option group";
         a.innerHTML = `
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-xs shrink-0 border border-orange-200">
-              ${item.duration_mins}m
+              ${mins}m
             </div>
-            <div><div class="btn-option-title">${item.label}</div></div>
+            <div><div class="btn-option-title">${label}</div></div>
           </div>
           <span class="btn-option-arrow">&rarr;</span>
         `;
@@ -535,19 +710,33 @@
       });
     }
 
+    // Step 4: Render Branches, sorted so available locations appear first
     function renderLocations(state) {
       const container = document.getElementById('location-list');
       container.innerHTML = '';
 
-      const availableMappings = (bookingConfig[state.service] && bookingConfig[state.service][state.type]) || {};
+      const serviceLocations = bookingConfig[state.service] || {};
 
-      outletsData.forEach(outlet => {
-        const baseUrl = availableMappings[outlet.id] || "";
-        const hasUrl = Boolean(baseUrl && baseUrl.trim().length > 0);
+      // Prepare list of outlet objects with resolved availability status
+      const processedOutlets = outletsData.map(outlet => {
+        const branchDurations = serviceLocations[outlet.id] || [];
+        const matchedDuration = branchDurations.find(item => item.mins === state.duration);
+        const redirectUrl = matchedDuration ? matchedDuration.url : "";
+        const isAvailable = Boolean(redirectUrl && redirectUrl.trim().length > 0);
 
-        if (hasUrl) {
-          const redirectUrl = state.duration ? `${baseUrl}?duration=${state.duration}` : baseUrl;
-          
+        return {
+          outlet,
+          matchedDuration,
+          redirectUrl,
+          isAvailable
+        };
+      });
+
+      // Sort array: Available branches first, unavailable branches last
+      processedOutlets.sort((a, b) => (b.isAvailable ? 1 : 0) - (a.isAvailable ? 1 : 0));
+
+      processedOutlets.forEach(({ outlet, matchedDuration, redirectUrl, isAvailable }) => {
+        if (isAvailable) {
           const sessionPayload = {
             type: state.type,
             service: state.service,
@@ -555,6 +744,8 @@
             outletId: outlet.id,
             redirectUrl: redirectUrl
           };
+
+          const displayLabel = matchedDuration.label || `${state.duration} Mins Session`;
 
           const a = document.createElement('a');
           a.href = createHash(5, state.type, state.service, state.duration);
@@ -569,6 +760,7 @@
               <span class="text-xs text-emerald-600 font-semibold">Available</span>
             </div>
             <div class="font-semibold text-gray-900 group-hover:text-orange-600 mt-0.5">${outlet.outlet_name}</div>
+            <div class="text-xs text-orange-600 font-medium">${displayLabel}</div>
             <div class="text-xs text-[#79797B] leading-snug">${outlet.address}</div>
             <div class="text-[11px] text-gray-500 flex items-center gap-1 pt-1 border-t border-gray-200/60 mt-1">
               <svg class="w-3.5 h-3.5 text-orange-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
