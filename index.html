@@ -86,6 +86,16 @@
   <!-- ========================================================= -->
   <script type="application/json" id="booking-map">
   {
+    "Check My Appointments": {
+      "manage": {
+        "cbd": "https://example.com/manage/cbd",
+        "east-coast": "https://example.com/manage/east-coast",
+        "jurong-east": "https://example.com/manage/jurong",
+        "orchard": "https://example.com/manage/orchard",
+        "punggol": "https://example.com/manage/punggol",
+        "upper-thomson": "https://example.com/manage/thomson"
+      }
+    },
     "First Visit Consultation": {
       "new": {
         "cbd": "https://example.com/book/first-visit/cbd",
@@ -172,12 +182,12 @@
           </div>
           <h1 class="text-2xl font-bold tracking-tight text-gray-900 mb-1">Welcome!</h1>
           <p class="text-custom-grey text-xs leading-relaxed">
-            Please tell us who this appointment is for to get started.
+            Please select an option below to continue.
           </p>
         </div>
 
         <div class="space-y-3">
-          <!-- New customer link auto-sets service & duration and routes to page 4 -->
+          <!-- Option 1: New Customer -->
           <a id="link-user-new" href="#page-4?type=new&service=First%20Visit%20Consultation&duration=60" class="w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all group flex items-center justify-between block">
             <div>
               <div class="font-semibold text-gray-900 group-hover:text-orange-600">New Customer</div>
@@ -186,11 +196,20 @@
             <span class="text-custom-grey group-hover:text-orange-500">&rarr;</span>
           </a>
 
-          <!-- Existing customer link routes to page 2 to select service -->
+          <!-- Option 2: Existing Customer -->
           <a id="link-user-existing" href="#page-2?type=existing" class="w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all group flex items-center justify-between block">
             <div>
               <div class="font-semibold text-gray-900 group-hover:text-orange-600">Existing Customer</div>
-              <div class="text-xs text-custom-grey">Returning client with an existing profile</div>
+              <div class="text-xs text-custom-grey">Returning client: Book new treatment session</div>
+            </div>
+            <span class="text-custom-grey group-hover:text-orange-500">&rarr;</span>
+          </a>
+
+          <!-- Option 3: Check My Appointments -->
+          <a id="link-user-manage" href="#page-4?type=manage&service=Check%20My%20Appointments" class="w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all group flex items-center justify-between block">
+            <div>
+              <div class="font-semibold text-gray-900 group-hover:text-orange-600">Check My Appointments</div>
+              <div class="text-xs text-custom-grey">View or manage your upcoming bookings</div>
             </div>
             <span class="text-custom-grey group-hover:text-orange-500">&rarr;</span>
           </a>
@@ -219,7 +238,7 @@
 
       <!-- ================= PAGE 4: Location Selection ================= -->
       <section id="page-4" class="page-step">
-        <h2 class="text-2xl font-bold text-gray-900 mb-2">Select Location</h2>
+        <h2 id="location-title" class="text-2xl font-bold text-gray-900 mb-2">Select Location</h2>
         <p id="location-description" class="text-custom-grey text-sm mb-6">Choose your preferred clinic branch.</p>
         <div id="location-list" class="space-y-3 max-h-[380px] overflow-y-auto pr-1"></div>
       </section>
@@ -231,8 +250,8 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
           </svg>
         </div>
-        <h2 class="text-2xl font-bold text-gray-900 mb-2">Location Selected!</h2>
-        <p class="text-custom-grey text-sm mb-6">Redirecting you to the appointment schedule...</p>
+        <h2 id="redirect-heading" class="text-2xl font-bold text-gray-900 mb-2">Location Selected!</h2>
+        <p id="redirect-subtext" class="text-custom-grey text-sm mb-6">Redirecting you to the appointment portal...</p>
         
         <a id="redirect-link" href="#" class="inline-block py-3 px-6 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-xl shadow-lg transition-all break-all text-sm">
           Proceeding...
@@ -291,11 +310,30 @@
       return queryString ? `${hash}?${queryString}` : hash;
     }
 
+    // --- EXTERNAL BACK-NAVIGATION & FRESH SESSION DETECTOR ---
+    function checkAndResetOnExternalBack() {
+      const navEntries = performance.getEntriesByType("navigation");
+      const isBackNavigation = navEntries.length > 0 && navEntries[0].type === "back_forward";
+      
+      // If back button clicked from external site or page loaded without our internal state tag, reset to page 1
+      if (isBackNavigation && (!history.state || !history.state.spaInternal)) {
+        window.location.hash = createHash(1);
+      }
+    }
+
     window.addEventListener("hashchange", handleHashChange);
-    document.addEventListener("DOMContentLoaded", handleHashChange);
+    document.addEventListener("DOMContentLoaded", () => {
+      checkAndResetOnExternalBack();
+      handleHashChange();
+    });
 
     function handleHashChange() {
       const state = parseHashState();
+
+      // Ensure internal state flag exists in history
+      if (!history.state || !history.state.spaInternal) {
+        history.replaceState({ spaInternal: true, step: state.step }, "", window.location.href);
+      }
 
       // Guard redirects if required previous selections are missing
       if (state.step === 2 && !state.type) {
@@ -306,7 +344,7 @@
         window.location.hash = createHash(1);
         return;
       }
-      if (state.step === 4 && (!state.type || !state.service || !state.duration)) {
+      if (state.step === 4 && (!state.type || !state.service)) {
         window.location.hash = createHash(1);
         return;
       }
@@ -328,8 +366,8 @@
       if (nextStep > 1 && nextStep < 5) {
         header.classList.remove('hidden');
         
-        // Custom header numbers depending on New vs Existing path length
-        if (state.type === 'new') {
+        // Custom header numbers depending on shortcut vs full path
+        if (state.type === 'new' || state.type === 'manage') {
           stepCount.textContent = `Step 2 of 2`;
           backBtn.href = createHash(1);
         } else {
@@ -366,14 +404,13 @@
       }, 300);
     }
 
-    // Step 2: Render Service options (Filtered to existing customer services)
+    // Step 2: Render Service options
     function renderServices(state) {
       const container = document.getElementById('service-list');
       container.innerHTML = '';
 
       Object.keys(bookingConfig).forEach(serviceName => {
-        // Exclude the 'First Visit Consultation' service from returning customers list
-        if (serviceName === "First Visit Consultation") return;
+        if (serviceName === "First Visit Consultation" || serviceName === "Check My Appointments") return;
 
         const a = document.createElement('a');
         a.href = createHash(3, state.type, serviceName);
@@ -412,10 +449,21 @@
       });
     }
 
-    // Step 4: Location Selection (Appends duration to final redirect URL)
+    // Step 4: Location Selection
     function renderLocations(state) {
       const container = document.getElementById('location-list');
+      const locationTitle = document.getElementById('location-title');
+      const locationDesc = document.getElementById('location-description');
+
       container.innerHTML = '';
+
+      if (state.type === 'manage') {
+        locationTitle.textContent = "Select Branch";
+        locationDesc.textContent = "Choose your clinic branch to view or manage your appointments.";
+      } else {
+        locationTitle.textContent = "Select Location";
+        locationDesc.textContent = "Choose your preferred clinic branch.";
+      }
 
       const availableMappings = (bookingConfig[state.service] && bookingConfig[state.service][state.type]) || {};
 
@@ -424,8 +472,7 @@
         const hasUrl = Boolean(baseUrl && baseUrl.trim().length > 0);
 
         if (hasUrl) {
-          // Append selected duration parameter to destination redirect URL
-          const redirectUrl = `${baseUrl}?duration=${state.duration}`;
+          const redirectUrl = state.duration ? `${baseUrl}?duration=${state.duration}` : baseUrl;
 
           const a = document.createElement('a');
           a.href = createHash(5, state.type, state.service, state.duration);
