@@ -210,7 +210,7 @@
       <!-- ================= PAGE 1: Customer Type Selection (Welcome) ================= -->
       <section id="page-1" class="page-step active visible">
         
-        <!-- RESUME SESSION PROMPT (Hidden by default, shown when returning from external URL) -->
+        <!-- RESUME SESSION PROMPT (Only shown for 'new' or 'existing' options) -->
         <div id="resume-banner" class="hidden mb-6 p-4 rounded-xl border border-orange-200 bg-orange-50/60 flex flex-col gap-3">
           <div>
             <div class="flex items-center gap-1.5 text-xs font-bold text-orange-600 uppercase tracking-wider mb-1">
@@ -224,7 +224,7 @@
           </div>
           <div class="flex items-center gap-2">
             <a id="btn-resume-continue" href="#" class="flex-1 text-center py-2 px-3 bg-orange-500 hover:bg-orange-600 text-white font-medium text-xs rounded-lg shadow transition-all">
-              Continue
+              Continue to Booking Site
             </a>
             <button onclick="resetSession()" type="button" class="py-2 px-3 bg-white hover:bg-gray-100 text-gray-700 font-medium text-xs rounded-lg border border-gray-300 transition-all">
               Start New
@@ -261,7 +261,7 @@
             <span class="btn-option-arrow">&rarr;</span>
           </a>
 
-          <a id="link-user-manage" href="#page-5?type=manage" onclick="triggerDirectRedirect('https://example.com/manage-appointments')" class="btn-option group">
+          <a id="link-user-manage" href="#page-5?type=manage" onclick="handleManageRedirect('https://example.com/manage-appointments', event)" class="btn-option group">
             <div>
               <div class="btn-option-title">Check My Appointments</div>
               <div class="btn-option-sub">View or manage your upcoming bookings</div>
@@ -331,25 +331,45 @@
       console.error("Failed to parse JSON datasets", e);
     }
 
-    // Check if user is returning from a previous redirect session
+    // Check if user is returning from a previous session
     function checkPreviousSession() {
       const savedState = sessionStorage.getItem("spa_last_session");
-      if (!savedState) return;
+      const banner = document.getElementById("resume-banner");
+
+      if (!savedState) {
+        if (banner) banner.classList.add("hidden");
+        return;
+      }
 
       try {
         const session = JSON.parse(savedState);
-        const banner = document.getElementById("resume-banner");
         const detailsEl = document.getElementById("resume-details");
         const continueBtn = document.getElementById("btn-resume-continue");
+
+        // If 'manage' action was performed, automatically reset back to page-1 without showing resume banner
+        if (session.type === 'manage') {
+          sessionStorage.removeItem("spa_last_session");
+          if (banner) banner.classList.add("hidden");
+          window.location.hash = "#page-1";
+          return;
+        }
 
         if (banner && detailsEl && continueBtn) {
           const outletObj = outletsData.find(o => o.id === session.outletId);
           const outletName = outletObj ? outletObj.outlet_name : "Selected Clinic";
 
-          detailsEl.textContent = `${session.service} (${session.duration ? session.duration + 'm' : ''}) @ ${outletName}`;
-          continueBtn.href = session.redirectUrl;
-          continueBtn.onclick = () => triggerDirectRedirect(session.redirectUrl, session);
+          const userTypeLabel = session.type === 'new' ? 'New Customer' : 'Existing Customer';
+          const durationStr = session.duration ? ` (${session.duration}m)` : '';
 
+          detailsEl.innerHTML = `${userTypeLabel} &bull; ${session.service}${durationStr} <br><span class="text-orange-600">${outletName}</span>`;
+          continueBtn.href = session.redirectUrl;
+          continueBtn.onclick = (e) => {
+            e.preventDefault();
+            executeRedirect(session.redirectUrl);
+          };
+
+          // Force view to page-1 so the banner is visible
+          window.location.hash = "#page-1";
           banner.classList.remove("hidden");
         }
       } catch (e) {
@@ -360,10 +380,8 @@
     function resetSession() {
       sessionStorage.removeItem("spa_last_session");
       document.getElementById("resume-banner").classList.add("hidden");
-      window.location.hash = createHash(1);
     }
 
-    // Parse state from URL Hash
     function parseHashState() {
       const hash = window.location.hash || "#page-1";
       const [pagePart, queryPart] = hash.split("?");
@@ -519,6 +537,7 @@
 
         if (hasUrl) {
           const redirectUrl = state.duration ? `${baseUrl}?duration=${state.duration}` : baseUrl;
+          
           const sessionPayload = {
             type: state.type,
             service: state.service,
@@ -530,7 +549,10 @@
           const a = document.createElement('a');
           a.href = createHash(5, state.type, state.service, state.duration);
           a.className = "card-location group";
-          a.onclick = () => triggerDirectRedirect(redirectUrl, sessionPayload);
+          a.onclick = (e) => {
+            e.preventDefault();
+            saveAndRedirect(redirectUrl, sessionPayload);
+          };
           a.innerHTML = `
             <div class="flex items-center justify-between w-full">
               <span class="badge-region">${outlet.region}</span>
@@ -568,18 +590,27 @@
       });
     }
 
-    function triggerDirectRedirect(url, sessionPayload = null) {
+    function handleManageRedirect(url, event) {
+      event.preventDefault();
+      saveAndRedirect(url, { type: 'manage', redirectUrl: url });
+    }
+
+    function saveAndRedirect(url, sessionPayload) {
       if (sessionPayload) {
         sessionStorage.setItem("spa_last_session", JSON.stringify(sessionPayload));
       }
+      window.location.hash = "#page-5";
+      executeRedirect(url);
+    }
 
+    function executeRedirect(url) {
       const redirectBtn = document.getElementById('redirect-link');
       redirectBtn.href = url;
 
       if (redirectTimeout) clearTimeout(redirectTimeout);
       redirectTimeout = setTimeout(() => {
         window.location.href = url;
-      }, 1800);
+      }, 1600);
     }
   </script>
 </body>
