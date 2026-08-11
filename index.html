@@ -9,50 +9,111 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- ========================================================= -->
-  <!-- BOOKING MAPPING CONFIGURATION (Service -> User -> Location) -->
+  <!-- 1. OUTLETS / BRANCHES DATASET                             -->
+  <!-- ========================================================= -->
+  <script type="application/json" id="outlets-data">
+  [
+    {
+      "region": "CBD",
+      "outlet_name": "Oriental Remedies TCM Clinic (CBD)",
+      "address": "18 Cross Street, #B1-17, Singapore 048423"
+    },
+    {
+      "region": "EAST COAST",
+      "outlet_name": "Oriental Remedies Plus (East Coast)",
+      "address": "171 East Coast Road, #01-04/05/06, Singapore 428877"
+    },
+    {
+      "region": "JURONG EAST",
+      "outlet_name": "Oriental Remedies (Jurong East)",
+      "address": "253 Jurong East Street 24, #01-227, Singapore 600253"
+    },
+    {
+      "region": "ORCHARD",
+      "outlet_name": "Oriental Remedies Clinic (Orchard)",
+      "address": "51 Cuppage Road, #05-07, Singapore 229469"
+    },
+    {
+      "region": "PUNGGOL",
+      "outlet_name": "Oriental Remedies Clinic (Punggol)",
+      "address": "84 Punggol Way, Punggol Coast Mall (Lobby C), #01-76/77, Singapore 829911"
+    },
+    {
+      "region": "UPPER THOMSON",
+      "outlet_name": "Oriental Remedies Clinic (Upper Thomson)",
+      "address": "200 Upper Thomson Road, Thomson Imperial Court, #01-10, Singapore 574424"
+    }
+  ]
+  </script>
+
+  <!-- ========================================================= -->
+  <!-- 2. BOOKING MATRIX (References outlet_name)                -->
   <!-- ========================================================= -->
   <script type="application/json" id="booking-map">
   {
-    "Haircut & Styling": {
+    "Acupuncture & Consultation": {
       "new": {
-        "Downtown Branch": "https://example.com/book/haircut/downtown-new",
-        "Uptown Branch": "https://example.com/book/haircut/uptown-new",
-        "Suburbs Branch": ""
+        "Oriental Remedies TCM Clinic (CBD)": "https://example.com/book/acu/cbd-new",
+        "Oriental Remedies Plus (East Coast)": "https://example.com/book/acu/east-new",
+        "Oriental Remedies (Jurong East)": "https://example.com/book/acu/jurong-new",
+        "Oriental Remedies Clinic (Orchard)": "",
+        "Oriental Remedies Clinic (Punggol)": "https://example.com/book/acu/punggol-new",
+        "Oriental Remedies Clinic (Upper Thomson)": "https://example.com/book/acu/thomson-new"
       },
       "existing": {
-        "Downtown Branch": "https://example.com/book/haircut/downtown-existing",
-        "Uptown Branch": "",
-        "Suburbs Branch": "https://example.com/book/haircut/suburbs-existing"
+        "Oriental Remedies TCM Clinic (CBD)": "https://example.com/book/acu/cbd-exist",
+        "Oriental Remedies Plus (East Coast)": "https://example.com/book/acu/east-exist",
+        "Oriental Remedies (Jurong East)": "",
+        "Oriental Remedies Clinic (Orchard)": "https://example.com/book/acu/orchard-exist",
+        "Oriental Remedies Clinic (Punggol)": "",
+        "Oriental Remedies Clinic (Upper Thomson)": "https://example.com/book/acu/thomson-exist"
       }
     },
-    "Spa & Massage": {
+    "TCM Herbal Consultation": {
       "new": {
-        "Downtown Branch": "https://example.com/book/spa/downtown-new",
-        "Uptown Branch": "",
-        "Suburbs Branch": "https://example.com/book/spa/suburbs-new"
+        "Oriental Remedies TCM Clinic (CBD)": "https://example.com/book/herbs/cbd-new",
+        "Oriental Remedies Plus (East Coast)": "https://example.com/book/herbs/east-new",
+        "Oriental Remedies (Jurong East)": "https://example.com/book/herbs/jurong-new",
+        "Oriental Remedies Clinic (Orchard)": "https://example.com/book/herbs/orchard-new",
+        "Oriental Remedies Clinic (Punggol)": "https://example.com/book/herbs/punggol-new",
+        "Oriental Remedies Clinic (Upper Thomson)": "https://example.com/book/herbs/thomson-new"
       },
       "existing": {
-        "Downtown Branch": "https://example.com/book/spa/downtown-existing",
-        "Uptown Branch": "https://example.com/book/spa/uptown-existing",
-        "Suburbs Branch": ""
+        "Oriental Remedies TCM Clinic (CBD)": "https://example.com/book/herbs/cbd-exist",
+        "Oriental Remedies Plus (East Coast)": "",
+        "Oriental Remedies (Jurong East)": "https://example.com/book/herbs/jurong-exist",
+        "Oriental Remedies Clinic (Orchard)": "",
+        "Oriental Remedies Clinic (Punggol)": "https://example.com/book/herbs/punggol-exist",
+        "Oriental Remedies Clinic (Upper Thomson)": ""
       }
     },
-    "Consultation": {
+    "Cupping / Tuina Therapy": {
       "new": {
-        "Downtown Branch": "https://example.com/book/consult/downtown-new",
-        "Uptown Branch": "https://example.com/book/consult/uptown-new",
-        "Suburbs Branch": "https://example.com/book/consult/suburbs-new"
+        "Oriental Remedies TCM Clinic (CBD)": "",
+        "Oriental Remedies Plus (East Coast)": "https://example.com/book/tuina/east-new",
+        "Oriental Remedies (Jurong East)": "",
+        "Oriental Remedies Clinic (Orchard)": "https://example.com/book/tuina/orchard-new",
+        "Oriental Remedies Clinic (Punggol)": "",
+        "Oriental Remedies Clinic (Upper Thomson)": "https://example.com/book/tuina/thomson-new"
       },
       "existing": {
-        "Downtown Branch": "",
-        "Uptown Branch": "",
-        "Suburbs Branch": ""
+        "Oriental Remedies TCM Clinic (CBD)": "https://example.com/book/tuina/cbd-exist",
+        "Oriental Remedies Plus (East Coast)": "https://example.com/book/tuina/east-exist",
+        "Oriental Remedies (Jurong East)": "https://example.com/book/tuina/jurong-exist",
+        "Oriental Remedies Clinic (Orchard)": "https://example.com/book/tuina/orchard-exist",
+        "Oriental Remedies Clinic (Punggol)": "https://example.com/book/tuina/punggol-exist",
+        "Oriental Remedies Clinic (Upper Thomson)": "https://example.com/book/tuina/thomson-exist"
       }
     }
   }
   </script>
 
   <style>
+    /* Custom Hex Color Extensions */
+    .bg-custom-grey { background-color: #79797B; }
+    .text-custom-grey { color: #79797B; }
+    .border-custom-grey { border-color: #79797B; }
+
     /* Lightweight, Hardware-Accelerated Fade & Scale Transition */
     .page-step {
       display: none;
@@ -72,17 +133,17 @@
     }
   </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen flex items-center justify-center p-4 selection:bg-indigo-500 selection:text-white">
+<body class="bg-gray-100 text-gray-800 min-h-screen flex items-center justify-center p-4 selection:bg-orange-500 selection:text-white">
 
   <!-- Main Responsive Container -->
-  <main class="w-full max-w-md bg-slate-800 rounded-2xl shadow-2xl border border-slate-700/60 overflow-hidden relative min-h-[480px] flex flex-col justify-between p-6 md:p-8">
+  <main class="w-full max-w-md bg-white rounded-2xl shadow-xl border border-gray-200 overflow-hidden relative min-h-[520px] flex flex-col justify-between p-6 md:p-8">
 
     <!-- Step Header -->
-    <header id="step-header" class="w-full flex items-center justify-between pb-4 mb-4 border-b border-slate-700/50 hidden">
-      <button id="btn-back" onclick="goToPreviousStep()" class="text-xs font-semibold text-slate-400 hover:text-white flex items-center gap-1 transition-colors">
+    <header id="step-header" class="w-full flex items-center justify-between pb-4 mb-4 border-b border-gray-200 hidden">
+      <button id="btn-back" onclick="goToPreviousStep()" class="text-xs font-semibold text-custom-grey hover:text-orange-500 flex items-center gap-1 transition-colors">
         &larr; Back
       </button>
-      <span id="step-count" class="text-xs font-mono uppercase tracking-widest text-indigo-400">Step 1 of 3</span>
+      <span id="step-count" class="text-xs font-mono uppercase tracking-widest text-orange-500 font-bold">Step 1 of 3</span>
     </header>
 
     <!-- Page Content Container -->
@@ -90,16 +151,16 @@
 
       <!-- ================= PAGE 1: Welcome ================= -->
       <section id="page-1" class="page-step active visible text-center">
-        <div class="w-16 h-16 bg-indigo-600/20 text-indigo-400 rounded-full flex items-center justify-center mx-auto mb-6 border border-indigo-500/30">
+        <div class="w-16 h-16 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-6 border border-orange-200 shadow-sm">
           <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
           </svg>
         </div>
-        <h1 class="text-3xl font-bold tracking-tight text-white mb-2">Welcome!</h1>
-        <p class="text-slate-400 text-sm mb-8 leading-relaxed">
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900 mb-2">Welcome!</h1>
+        <p class="text-custom-grey text-sm mb-8 leading-relaxed">
           Book your appointment in just a few quick steps. Fast, seamless, and hassle-free.
         </p>
-        <button onclick="goToStep(2)" class="w-full py-3.5 px-6 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-xl shadow-lg shadow-indigo-600/20 active:scale-[0.98] transition-all">
+        <button onclick="goToStep(2)" class="w-full py-3.5 px-6 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-xl shadow-lg shadow-orange-500/20 active:scale-[0.98] transition-all">
           Get Started &rarr;
         </button>
       </section>
@@ -107,8 +168,8 @@
 
       <!-- ================= PAGE 2: Service Selection ================= -->
       <section id="page-2" class="page-step">
-        <h2 class="text-2xl font-bold text-white mb-2">Select a Service</h2>
-        <p class="text-slate-400 text-sm mb-6">Choose the service you'd like to book today.</p>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">Select a Service</h2>
+        <p class="text-custom-grey text-sm mb-6">Choose the service you'd like to book today.</p>
         
         <div id="service-list" class="space-y-3">
           <!-- Dynamically populated from JSON keys -->
@@ -118,24 +179,24 @@
 
       <!-- ================= PAGE 3: User Type Selection ================= -->
       <section id="page-3" class="page-step">
-        <h2 class="text-2xl font-bold text-white mb-2">Who is this booking for?</h2>
-        <p class="text-slate-400 text-sm mb-6">Select an option to help us tailor your booking experience.</p>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">Who is this booking for?</h2>
+        <p class="text-custom-grey text-sm mb-6">Select an option to help us tailor your booking experience.</p>
         
         <div class="space-y-3">
-          <button onclick="selectUserType('new')" class="w-full p-4 rounded-xl border border-slate-700 bg-slate-800/80 hover:bg-slate-700/60 hover:border-indigo-500 text-left transition-all group flex items-center justify-between">
+          <button onclick="selectUserType('new')" class="w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all group flex items-center justify-between">
             <div>
-              <div class="font-semibold text-white group-hover:text-indigo-300">New Customer</div>
-              <div class="text-xs text-slate-400">First time visiting or using our services</div>
+              <div class="font-semibold text-gray-900 group-hover:text-orange-600">New Customer</div>
+              <div class="text-xs text-custom-grey">First time visiting or using our services</div>
             </div>
-            <span class="text-slate-500 group-hover:text-indigo-400">&rarr;</span>
+            <span class="text-custom-grey group-hover:text-orange-500">&rarr;</span>
           </button>
 
-          <button onclick="selectUserType('existing')" class="w-full p-4 rounded-xl border border-slate-700 bg-slate-800/80 hover:bg-slate-700/60 hover:border-indigo-500 text-left transition-all group flex items-center justify-between">
+          <button onclick="selectUserType('existing')" class="w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all group flex items-center justify-between">
             <div>
-              <div class="font-semibold text-white group-hover:text-indigo-300">Existing Customer</div>
-              <div class="text-xs text-slate-400">Returning client with an existing profile</div>
+              <div class="font-semibold text-gray-900 group-hover:text-orange-600">Existing Customer</div>
+              <div class="text-xs text-custom-grey">Returning client with an existing profile</div>
             </div>
-            <span class="text-slate-500 group-hover:text-indigo-400">&rarr;</span>
+            <span class="text-custom-grey group-hover:text-orange-500">&rarr;</span>
           </button>
         </div>
       </section>
@@ -143,10 +204,10 @@
 
       <!-- ================= PAGE 4: Location Selection ================= -->
       <section id="page-4" class="page-step">
-        <h2 class="text-2xl font-bold text-white mb-2">Select Location</h2>
-        <p class="text-slate-400 text-sm mb-6">Choose your preferred branch. Unavailable options are disabled based on your selection.</p>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">Select Location</h2>
+        <p class="text-custom-grey text-sm mb-6">Choose your preferred clinic branch. Unavailable options are disabled based on your selection.</p>
 
-        <div id="location-list" class="space-y-3">
+        <div id="location-list" class="space-y-3 max-h-[360px] overflow-y-auto pr-1">
           <!-- Dynamically populated via JS -->
         </div>
       </section>
@@ -154,13 +215,13 @@
 
       <!-- ================= PAGE 5: Redirect / Confirmation ================= -->
       <section id="page-5" class="page-step text-center">
-        <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-500/30">
+        <div class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-200 shadow-sm">
           <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
           </svg>
         </div>
-        <h2 class="text-2xl font-bold text-white mb-2">Location Selected!</h2>
-        <p class="text-slate-400 text-sm mb-6">Redirecting you to the appointment schedule...</p>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">Location Selected!</h2>
+        <p class="text-custom-grey text-sm mb-6">Redirecting you to the appointment schedule...</p>
         
         <a id="redirect-link" href="#" class="inline-block py-3 px-6 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-xl shadow-lg transition-all break-all text-sm">
           Proceeding...
@@ -170,24 +231,26 @@
     </div>
 
     <!-- Footer -->
-    <footer class="pt-6 mt-6 border-t border-slate-700/40 text-center text-xs text-slate-500">
+    <footer class="pt-6 mt-6 border-t border-gray-200 text-center text-xs text-custom-grey">
       &copy; 2026 QuickBook SPA. All rights reserved.
     </footer>
   </main>
 
   <!-- App Logic -->
   <script>
+    let outletsData = [];
     let bookingConfig = {};
     let selectedService = null;
     let selectedUserType = null;
     let selectedLocation = null;
     let currentStep = 1;
 
-    // Load JSON mapping from top script block
+    // Load JSON configurations on start
     try {
+      outletsData = JSON.parse(document.getElementById('outlets-data').textContent);
       bookingConfig = JSON.parse(document.getElementById('booking-map').textContent);
     } catch (e) {
-      console.error("Failed to parse booking mapping JSON", e);
+      console.error("Failed to parse JSON datasets", e);
     }
 
     // Initialize Services List on Load
@@ -199,7 +262,7 @@
 
       if (!nextEl || currentStep === nextStep) return;
 
-      // Update Header (Steps 2 to 4 show progress)
+      // Update Header Progress
       const header = document.getElementById('step-header');
       const stepCount = document.getElementById('step-count');
       if (nextStep > 1 && nextStep < 5) {
@@ -215,7 +278,7 @@
       setTimeout(() => {
         currentEl.classList.remove('active');
         
-        // Render step-specific dynamic options
+        // Render dynamic views
         if (nextStep === 4) renderLocations();
         
         nextEl.classList.add('active');
@@ -240,13 +303,13 @@
       Object.keys(bookingConfig).forEach(serviceName => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = "w-full p-4 rounded-xl border border-slate-700 bg-slate-800/80 hover:bg-indigo-600/20 hover:border-indigo-500 text-left transition-all flex items-center justify-between group";
+        btn.className = "w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all flex items-center justify-between group";
         btn.onclick = () => selectService(serviceName);
         btn.innerHTML = `
           <div>
-            <div class="font-semibold text-white group-hover:text-indigo-300">${serviceName}</div>
+            <div class="font-semibold text-gray-900 group-hover:text-orange-600">${serviceName}</div>
           </div>
-          <span class="text-slate-500 group-hover:text-indigo-400">&rarr;</span>
+          <span class="text-custom-grey group-hover:text-orange-500">&rarr;</span>
         `;
         container.appendChild(btn);
       });
@@ -263,38 +326,42 @@
       goToStep(4);
     }
 
-    // Step 4: Location Selection Logic
+    // Step 4: Location Selection Logic (Cross-references Outlets Dataset)
     function renderLocations() {
       const container = document.getElementById('location-list');
       container.innerHTML = '';
 
-      const locations = (bookingConfig[selectedService] && bookingConfig[selectedService][selectedUserType]) || {};
+      // Get mappings for selectedService -> selectedUserType
+      const availableMappings = (bookingConfig[selectedService] && bookingConfig[selectedService][selectedUserType]) || {};
 
-      Object.entries(locations).forEach(([locationName, redirectUrl]) => {
+      outletsData.forEach(outlet => {
+        const redirectUrl = availableMappings[outlet.outlet_name] || "";
         const hasUrl = Boolean(redirectUrl && redirectUrl.trim().length > 0);
-        
+
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.disabled = !hasUrl;
 
         if (hasUrl) {
-          btn.className = "w-full p-4 rounded-xl border border-slate-700 bg-slate-800 hover:bg-indigo-600/20 hover:border-indigo-500 text-left transition-all flex items-center justify-between group";
-          btn.onclick = () => handleLocationSelect(locationName, redirectUrl);
+          btn.className = "w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all flex flex-col gap-1 group";
+          btn.onclick = () => handleLocationSelect(outlet.outlet_name, redirectUrl);
           btn.innerHTML = `
-            <div>
-              <div class="font-semibold text-white group-hover:text-indigo-300">${locationName}</div>
-              <div class="text-xs text-emerald-400">Available for booking</div>
+            <div class="flex items-center justify-between w-full">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-orange-600 bg-orange-100 px-2 py-0.5 rounded border border-orange-200">${outlet.region}</span>
+              <span class="text-xs text-emerald-600 font-semibold">Available</span>
             </div>
-            <span class="text-slate-400 group-hover:text-indigo-300">&rarr;</span>
+            <div class="font-semibold text-gray-900 group-hover:text-orange-600 mt-0.5">${outlet.outlet_name}</div>
+            <div class="text-xs text-custom-grey leading-snug">${outlet.address}</div>
           `;
         } else {
-          btn.className = "w-full p-4 rounded-xl border border-slate-800 bg-slate-800/40 text-left cursor-not-allowed opacity-50 flex items-center justify-between";
+          btn.className = "w-full p-4 rounded-xl border border-gray-100 bg-gray-50/30 text-left cursor-not-allowed opacity-50 flex flex-col gap-1";
           btn.innerHTML = `
-            <div>
-              <div class="font-semibold text-slate-500">${locationName}</div>
-              <div class="text-xs text-rose-400/80">Unavailable for selected option</div>
+            <div class="flex items-center justify-between w-full">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 bg-gray-100 px-2 py-0.5 rounded border border-gray-200">${outlet.region}</span>
+              <span class="text-xs text-rose-500 font-medium">Unavailable</span>
             </div>
-            <span class="text-xs bg-slate-800 px-2 py-1 rounded text-slate-600 border border-slate-700/50">Disabled</span>
+            <div class="font-semibold text-gray-400 mt-0.5">${outlet.outlet_name}</div>
+            <div class="text-xs text-gray-400 leading-snug">${outlet.address}</div>
           `;
         }
 
