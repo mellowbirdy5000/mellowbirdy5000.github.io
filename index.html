@@ -18,42 +18,42 @@
       "region": "CBD",
       "outlet_name": "Oriental Remedies TCM Clinic (CBD)",
       "address": "18 Cross Street, #B1-17, Singapore 048423",
-      "operating_hours": "Mon - Fri: 10:00 AM - 8:30 PM | Sat: 9:00 AM - 5:00 PM (Closed Sun)"
+      "operating_hours": "Mon - Sun: 10:30 AM - 8:00 PM"
     },
     {
       "id": "east-coast",
       "region": "EAST COAST",
       "outlet_name": "Oriental Remedies Plus (East Coast)",
       "address": "171 East Coast Road, #01-04/05/06, Singapore 428877",
-      "operating_hours": "Mon - Sun: 9:00 AM - 9:00 PM"
+      "operating_hours": "Mon, Tue, Thu, Fri: 9:00 AM - 9:00 PM | Wed, Sat, Sun: 9:00 AM - 6:00 PM"
     },
     {
       "id": "jurong-east",
       "region": "JURONG EAST",
       "outlet_name": "Oriental Remedies (Jurong East)",
       "address": "253 Jurong East Street 24, #01-227, Singapore 600253",
-      "operating_hours": "Mon - Sat: 10:00 AM - 8:00 PM (Closed Sun)"
+      "operating_hours": "Mon - Sun: 9:00 AM - 9:00 PM"
     },
     {
       "id": "orchard",
       "region": "ORCHARD",
       "outlet_name": "Oriental Remedies Clinic (Orchard)",
       "address": "51 Cuppage Road, #05-07, Singapore 229469",
-      "operating_hours": "Mon - Fri: 10:00 AM - 8:00 PM | Sat - Sun: 9:00 AM - 6:00 PM"
+      "operating_hours": "Tue, Thu, Fri: 9:00 AM - 9:00 PM | Mon, Sat: 9:00 AM - 8:00 PM | Wed, Sun: 9:00 AM - 6:00 PM"
     },
     {
       "id": "punggol",
       "region": "PUNGGOL",
       "outlet_name": "Oriental Remedies Clinic (Punggol)",
       "address": "84 Punggol Way, Punggol Coast Mall (Lobby C), #01-76/77, Singapore 829911",
-      "operating_hours": "Mon - Sun: 9:00 AM - 8:30 PM"
+      "operating_hours": "Mon - Sun: 10:00 AM - 9:00 PM"
     },
     {
       "id": "upper-thomson",
       "region": "UPPER THOMSON",
       "outlet_name": "Oriental Remedies Clinic (Upper Thomson)",
       "address": "200 Upper Thomson Road, Thomson Imperial Court, #01-10, Singapore 574424",
-      "operating_hours": "Mon - Fri: 10:00 AM - 8:00 PM | Sat - Sun: 9:00 AM - 5:30 PM"
+      "operating_hours": "Mon - Fri, Sun: 9:00 AM - 9:00 PM | Sat: 9:00 AM - 6:00 PM"
     }
   ]
   </script>
@@ -429,7 +429,6 @@
         return;
       }
       
-      // Safety Check: Reset if accessing Page 5 (Redirecting) without valid redirect URL or session
       if (state.step === 5) {
         const redirectBtn = document.getElementById('redirect-link');
         const hasActiveRedirect = redirectBtn && redirectBtn.getAttribute('href') && redirectBtn.getAttribute('href') !== '#';
@@ -575,7 +574,7 @@
               <svg class="w-3.5 h-3.5 text-orange-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
-              <span class="truncate">${outlet.operating_hours || 'Hours unavailable'}</span>
+              <span class="leading-snug">${outlet.operating_hours || 'Hours unavailable'}</span>
             </div>
           `;
           container.appendChild(a);
@@ -593,7 +592,7 @@
               <svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
-              <span class="truncate">${outlet.operating_hours || 'Hours unavailable'}</span>
+              <span class="leading-snug">${outlet.operating_hours || 'Hours unavailable'}</span>
             </div>
           `;
           container.appendChild(div);
