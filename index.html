@@ -210,7 +210,7 @@
       <!-- ================= PAGE 1: Customer Type Selection (Welcome) ================= -->
       <section id="page-1" class="page-step active visible">
         
-        <!-- RESUME SESSION PROMPT (Only shown for 'new' or 'existing' options) -->
+        <!-- RESUME SESSION PROMPT -->
         <div id="resume-banner" class="hidden mb-6 p-4 rounded-xl border border-orange-200 bg-orange-50/60 flex flex-col gap-3">
           <div>
             <div class="flex items-center gap-1.5 text-xs font-bold text-orange-600 uppercase tracking-wider mb-1">
@@ -331,7 +331,6 @@
       console.error("Failed to parse JSON datasets", e);
     }
 
-    // Check if user is returning from a previous session
     function checkPreviousSession() {
       const savedState = sessionStorage.getItem("spa_last_session");
       const banner = document.getElementById("resume-banner");
@@ -346,7 +345,6 @@
         const detailsEl = document.getElementById("resume-details");
         const continueBtn = document.getElementById("btn-resume-continue");
 
-        // If 'manage' action was performed, automatically reset back to page-1 without showing resume banner
         if (session.type === 'manage') {
           sessionStorage.removeItem("spa_last_session");
           if (banner) banner.classList.add("hidden");
@@ -368,7 +366,6 @@
             executeRedirect(session.redirectUrl);
           };
 
-          // Force view to page-1 so the banner is visible
           window.location.hash = "#page-1";
           banner.classList.remove("hidden");
         }
@@ -379,7 +376,8 @@
 
     function resetSession() {
       sessionStorage.removeItem("spa_last_session");
-      document.getElementById("resume-banner").classList.add("hidden");
+      const banner = document.getElementById("resume-banner");
+      if (banner) banner.classList.add("hidden");
     }
 
     function parseHashState() {
@@ -429,6 +427,19 @@
       if (state.step === 4 && (!state.type || !state.service)) {
         window.location.hash = createHash(1);
         return;
+      }
+      
+      // Safety Check: Reset if accessing Page 5 (Redirecting) without valid redirect URL or session
+      if (state.step === 5) {
+        const redirectBtn = document.getElementById('redirect-link');
+        const hasActiveRedirect = redirectBtn && redirectBtn.getAttribute('href') && redirectBtn.getAttribute('href') !== '#';
+        const hasSavedSession = sessionStorage.getItem("spa_last_session");
+
+        if (!hasActiveRedirect && !hasSavedSession) {
+          resetSession();
+          window.location.hash = createHash(1);
+          return;
+        }
       }
 
       goToStep(state.step, state);
