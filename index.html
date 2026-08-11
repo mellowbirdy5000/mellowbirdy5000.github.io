@@ -9,39 +9,45 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- ========================================================= -->
-  <!-- 1. OUTLETS / BRANCHES DATASET                             -->
+  <!-- 1. OUTLETS / BRANCHES DATASET (Now with operating_hours)  -->
   <!-- ========================================================= -->
   <script type="application/json" id="outlets-data">
   [
     {
       "region": "CBD",
       "outlet_name": "Oriental Remedies TCM Clinic (CBD)",
-      "address": "18 Cross Street, #B1-17, Singapore 048423"
+      "address": "18 Cross Street, #B1-17, Singapore 048423",
+      "operating_hours": "Mon - Fri: 10:00 AM - 8:30 PM | Sat: 9:00 AM - 5:00 PM (Closed Sun)"
     },
     {
       "region": "EAST COAST",
       "outlet_name": "Oriental Remedies Plus (East Coast)",
-      "address": "171 East Coast Road, #01-04/05/06, Singapore 428877"
+      "address": "171 East Coast Road, #01-04/05/06, Singapore 428877",
+      "operating_hours": "Mon - Sun: 9:00 AM - 9:00 PM"
     },
     {
       "region": "JURONG EAST",
       "outlet_name": "Oriental Remedies (Jurong East)",
-      "address": "253 Jurong East Street 24, #01-227, Singapore 600253"
+      "address": "253 Jurong East Street 24, #01-227, Singapore 600253",
+      "operating_hours": "Mon - Sat: 10:00 AM - 8:00 PM (Closed Sun)"
     },
     {
       "region": "ORCHARD",
       "outlet_name": "Oriental Remedies Clinic (Orchard)",
-      "address": "51 Cuppage Road, #05-07, Singapore 229469"
+      "address": "51 Cuppage Road, #05-07, Singapore 229469",
+      "operating_hours": "Mon - Fri: 10:00 AM - 8:00 PM | Sat - Sun: 9:00 AM - 6:00 PM"
     },
     {
       "region": "PUNGGOL",
       "outlet_name": "Oriental Remedies Clinic (Punggol)",
-      "address": "84 Punggol Way, Punggol Coast Mall (Lobby C), #01-76/77, Singapore 829911"
+      "address": "84 Punggol Way, Punggol Coast Mall (Lobby C), #01-76/77, Singapore 829911",
+      "operating_hours": "Mon - Sun: 9:00 AM - 8:30 PM"
     },
     {
       "region": "UPPER THOMSON",
       "outlet_name": "Oriental Remedies Clinic (Upper Thomson)",
-      "address": "200 Upper Thomson Road, Thomson Imperial Court, #01-10, Singapore 574424"
+      "address": "200 Upper Thomson Road, Thomson Imperial Court, #01-10, Singapore 574424",
+      "operating_hours": "Mon - Fri: 10:00 AM - 8:00 PM | Sat - Sun: 9:00 AM - 5:30 PM"
     }
   ]
   </script>
@@ -207,7 +213,7 @@
         <h2 class="text-2xl font-bold text-gray-900 mb-2">Select Location</h2>
         <p class="text-custom-grey text-sm mb-6">Choose your preferred clinic branch. Unavailable options are disabled based on your selection.</p>
 
-        <div id="location-list" class="space-y-3 max-h-[360px] overflow-y-auto pr-1">
+        <div id="location-list" class="space-y-3 max-h-[380px] overflow-y-auto pr-1">
           <!-- Dynamically populated via JS -->
         </div>
       </section>
@@ -326,12 +332,11 @@
       goToStep(4);
     }
 
-    // Step 4: Location Selection Logic (Cross-references Outlets Dataset)
+    // Step 4: Location Selection Logic (Renders address & operating hours)
     function renderLocations() {
       const container = document.getElementById('location-list');
       container.innerHTML = '';
 
-      // Get mappings for selectedService -> selectedUserType
       const availableMappings = (bookingConfig[selectedService] && bookingConfig[selectedService][selectedUserType]) || {};
 
       outletsData.forEach(outlet => {
@@ -343,7 +348,7 @@
         btn.disabled = !hasUrl;
 
         if (hasUrl) {
-          btn.className = "w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all flex flex-col gap-1 group";
+          btn.className = "w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all flex flex-col gap-1.5 group";
           btn.onclick = () => handleLocationSelect(outlet.outlet_name, redirectUrl);
           btn.innerHTML = `
             <div class="flex items-center justify-between w-full">
@@ -352,9 +357,15 @@
             </div>
             <div class="font-semibold text-gray-900 group-hover:text-orange-600 mt-0.5">${outlet.outlet_name}</div>
             <div class="text-xs text-custom-grey leading-snug">${outlet.address}</div>
+            <div class="text-[11px] text-gray-500 flex items-center gap-1 pt-1 border-t border-gray-200/60 mt-1">
+              <svg class="w-3.5 h-3.5 text-orange-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span class="truncate">${outlet.operating_hours || 'Hours unavailable'}</span>
+            </div>
           `;
         } else {
-          btn.className = "w-full p-4 rounded-xl border border-gray-100 bg-gray-50/30 text-left cursor-not-allowed opacity-50 flex flex-col gap-1";
+          btn.className = "w-full p-4 rounded-xl border border-gray-100 bg-gray-50/30 text-left cursor-not-allowed opacity-50 flex flex-col gap-1.5";
           btn.innerHTML = `
             <div class="flex items-center justify-between w-full">
               <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 bg-gray-100 px-2 py-0.5 rounded border border-gray-200">${outlet.region}</span>
@@ -362,6 +373,12 @@
             </div>
             <div class="font-semibold text-gray-400 mt-0.5">${outlet.outlet_name}</div>
             <div class="text-xs text-gray-400 leading-snug">${outlet.address}</div>
+            <div class="text-[11px] text-gray-400 flex items-center gap-1 pt-1 border-t border-gray-200/40 mt-1">
+              <svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span class="truncate">${outlet.operating_hours || 'Hours unavailable'}</span>
+            </div>
           `;
         }
 
