@@ -86,16 +86,6 @@
   <!-- ========================================================= -->
   <script type="application/json" id="booking-map">
   {
-    "Check My Appointments": {
-      "manage": {
-        "cbd": "https://example.com/manage/cbd",
-        "east-coast": "https://example.com/manage/east-coast",
-        "jurong-east": "https://example.com/manage/jurong",
-        "orchard": "https://example.com/manage/orchard",
-        "punggol": "https://example.com/manage/punggol",
-        "upper-thomson": "https://example.com/manage/thomson"
-      }
-    },
     "First Visit Consultation": {
       "new": {
         "cbd": "https://example.com/book/first-visit/cbd",
@@ -205,8 +195,8 @@
             <span class="text-custom-grey group-hover:text-orange-500">&rarr;</span>
           </a>
 
-          <!-- Option 3: Check My Appointments -->
-          <a id="link-user-manage" href="#page-4?type=manage&service=Check%20My%20Appointments" class="w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all group flex items-center justify-between block">
+          <!-- Option 3: Check My Appointments (Direct Redirect) -->
+          <a id="link-user-manage" href="#page-5?type=manage" onclick="triggerDirectRedirect('https://example.com/manage-appointments')" class="w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all group flex items-center justify-between block">
             <div>
               <div class="font-semibold text-gray-900 group-hover:text-orange-600">Check My Appointments</div>
               <div class="text-xs text-custom-grey">View or manage your upcoming bookings</div>
@@ -220,26 +210,20 @@
       <section id="page-2" class="page-step">
         <h2 class="text-2xl font-bold text-gray-900 mb-2">Select a Service</h2>
         <p class="text-custom-grey text-sm mb-6">Choose the service you'd like to book today.</p>
-        
-        <div id="service-list" class="space-y-3">
-          <!-- Dynamically populated anchor links -->
-        </div>
+        <div id="service-list" class="space-y-3"></div>
       </section>
 
       <!-- ================= PAGE 3: Duration Selection ================= -->
       <section id="page-3" class="page-step">
         <h2 class="text-2xl font-bold text-gray-900 mb-2">Select Duration</h2>
         <p class="text-custom-grey text-sm mb-6">Choose how long you want your session to be.</p>
-        
-        <div id="duration-list" class="space-y-3">
-          <!-- Dynamically populated based on selected service -->
-        </div>
+        <div id="duration-list" class="space-y-3"></div>
       </section>
 
       <!-- ================= PAGE 4: Location Selection ================= -->
       <section id="page-4" class="page-step">
-        <h2 id="location-title" class="text-2xl font-bold text-gray-900 mb-2">Select Location</h2>
-        <p id="location-description" class="text-custom-grey text-sm mb-6">Choose your preferred clinic branch.</p>
+        <h2 class="text-2xl font-bold text-gray-900 mb-2">Select Location</h2>
+        <p class="text-custom-grey text-sm mb-6">Choose your preferred clinic branch.</p>
         <div id="location-list" class="space-y-3 max-h-[380px] overflow-y-auto pr-1"></div>
       </section>
 
@@ -250,8 +234,8 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
           </svg>
         </div>
-        <h2 id="redirect-heading" class="text-2xl font-bold text-gray-900 mb-2">Location Selected!</h2>
-        <p id="redirect-subtext" class="text-custom-grey text-sm mb-6">Redirecting you to the appointment portal...</p>
+        <h2 id="redirect-heading" class="text-2xl font-bold text-gray-900 mb-2">Redirecting...</h2>
+        <p id="redirect-subtext" class="text-custom-grey text-sm mb-6">Taking you to the appointment portal...</p>
         
         <a id="redirect-link" href="#" class="inline-block py-3 px-6 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-xl shadow-lg transition-all break-all text-sm">
           Proceeding...
@@ -282,7 +266,7 @@
       console.error("Failed to parse JSON datasets", e);
     }
 
-    // Parse state from URL Hash (#page-2?type=...&service=...&duration=...)
+    // Parse state from URL Hash
     function parseHashState() {
       const hash = window.location.hash || "#page-1";
       const [pagePart, queryPart] = hash.split("?");
@@ -298,7 +282,7 @@
       return { step, type, service, duration };
     }
 
-    // Build URL hash with encoded params
+    // Build URL hash
     function createHash(step, type = null, service = null, duration = null) {
       let hash = `#page-${step}`;
       const params = new URLSearchParams();
@@ -310,12 +294,11 @@
       return queryString ? `${hash}?${queryString}` : hash;
     }
 
-    // --- EXTERNAL BACK-NAVIGATION & FRESH SESSION DETECTOR ---
+    // Reset state if back button was clicked from an external page
     function checkAndResetOnExternalBack() {
       const navEntries = performance.getEntriesByType("navigation");
       const isBackNavigation = navEntries.length > 0 && navEntries[0].type === "back_forward";
       
-      // If back button clicked from external site or page loaded without our internal state tag, reset to page 1
       if (isBackNavigation && (!history.state || !history.state.spaInternal)) {
         window.location.hash = createHash(1);
       }
@@ -330,7 +313,6 @@
     function handleHashChange() {
       const state = parseHashState();
 
-      // Ensure internal state flag exists in history
       if (!history.state || !history.state.spaInternal) {
         history.replaceState({ spaInternal: true, step: state.step }, "", window.location.href);
       }
@@ -366,8 +348,7 @@
       if (nextStep > 1 && nextStep < 5) {
         header.classList.remove('hidden');
         
-        // Custom header numbers depending on shortcut vs full path
-        if (state.type === 'new' || state.type === 'manage') {
+        if (state.type === 'new') {
           stepCount.textContent = `Step 2 of 2`;
           backBtn.href = createHash(1);
         } else {
@@ -397,7 +378,7 @@
         if (nextStep === 4) renderLocations(state);
         
         nextEl.classList.add('active');
-        void nextEl.offsetWidth; // Force reflow
+        void nextEl.offsetWidth;
         nextEl.classList.add('visible');
         
         currentStep = nextStep;
@@ -410,7 +391,7 @@
       container.innerHTML = '';
 
       Object.keys(bookingConfig).forEach(serviceName => {
-        if (serviceName === "First Visit Consultation" || serviceName === "Check My Appointments") return;
+        if (serviceName === "First Visit Consultation") return;
 
         const a = document.createElement('a');
         a.href = createHash(3, state.type, serviceName);
@@ -423,7 +404,7 @@
       });
     }
 
-    // Step 3: Render Duration Links based on selected service
+    // Step 3: Render Duration Links
     function renderDurations(state) {
       const container = document.getElementById('duration-list');
       container.innerHTML = '';
@@ -452,18 +433,7 @@
     // Step 4: Location Selection
     function renderLocations(state) {
       const container = document.getElementById('location-list');
-      const locationTitle = document.getElementById('location-title');
-      const locationDesc = document.getElementById('location-description');
-
       container.innerHTML = '';
-
-      if (state.type === 'manage') {
-        locationTitle.textContent = "Select Branch";
-        locationDesc.textContent = "Choose your clinic branch to view or manage your appointments.";
-      } else {
-        locationTitle.textContent = "Select Location";
-        locationDesc.textContent = "Choose your preferred clinic branch.";
-      }
 
       const availableMappings = (bookingConfig[state.service] && bookingConfig[state.service][state.type]) || {};
 
@@ -477,7 +447,7 @@
           const a = document.createElement('a');
           a.href = createHash(5, state.type, state.service, state.duration);
           a.className = "w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all flex flex-col gap-1.5 group block";
-          a.onclick = () => handleLocationSelect(redirectUrl);
+          a.onclick = () => triggerDirectRedirect(redirectUrl);
           a.innerHTML = `
             <div class="flex items-center justify-between w-full">
               <span class="text-[10px] font-bold uppercase tracking-wider text-orange-600 bg-orange-100 px-2 py-0.5 rounded border border-orange-200">${outlet.region}</span>
@@ -515,8 +485,8 @@
       });
     }
 
-    // Step 5: Final Redirect
-    function handleLocationSelect(url) {
+    // Direct Redirect Helper for Location and Check My Appointments
+    function triggerDirectRedirect(url) {
       const redirectBtn = document.getElementById('redirect-link');
       redirectBtn.href = url;
 
