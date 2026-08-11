@@ -209,6 +209,29 @@
 
       <!-- ================= PAGE 1: Customer Type Selection (Welcome) ================= -->
       <section id="page-1" class="page-step active visible">
+        
+        <!-- RESUME SESSION PROMPT (Hidden by default, shown when returning from external URL) -->
+        <div id="resume-banner" class="hidden mb-6 p-4 rounded-xl border border-orange-200 bg-orange-50/60 flex flex-col gap-3">
+          <div>
+            <div class="flex items-center gap-1.5 text-xs font-bold text-orange-600 uppercase tracking-wider mb-1">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              Resume Previous Session?
+            </div>
+            <p class="text-xs text-gray-700 leading-snug">
+              You recently selected: <br>
+              <strong id="resume-details" class="text-gray-900 font-semibold"></strong>
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <a id="btn-resume-continue" href="#" class="flex-1 text-center py-2 px-3 bg-orange-500 hover:bg-orange-600 text-white font-medium text-xs rounded-lg shadow transition-all">
+              Continue
+            </a>
+            <button onclick="resetSession()" type="button" class="py-2 px-3 bg-white hover:bg-gray-100 text-gray-700 font-medium text-xs rounded-lg border border-gray-300 transition-all">
+              Start New
+            </button>
+          </div>
+        </div>
+
         <div class="text-center mb-6">
           <div class="icon-circle-orange">
             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -308,15 +331,39 @@
       console.error("Failed to parse JSON datasets", e);
     }
 
-    // Force Reset State on BFCache Restore / External Navigation Back
-    window.addEventListener("pageshow", (event) => {
-      const wasRedirected = sessionStorage.getItem("spa_redirected");
-      if (event.persisted || wasRedirected) {
-        sessionStorage.removeItem("spa_redirected");
-        window.location.hash = "#page-1";
-      }
-    });
+    // Check if user is returning from a previous redirect session
+    function checkPreviousSession() {
+      const savedState = sessionStorage.getItem("spa_last_session");
+      if (!savedState) return;
 
+      try {
+        const session = JSON.parse(savedState);
+        const banner = document.getElementById("resume-banner");
+        const detailsEl = document.getElementById("resume-details");
+        const continueBtn = document.getElementById("btn-resume-continue");
+
+        if (banner && detailsEl && continueBtn) {
+          const outletObj = outletsData.find(o => o.id === session.outletId);
+          const outletName = outletObj ? outletObj.outlet_name : "Selected Clinic";
+
+          detailsEl.textContent = `${session.service} (${session.duration ? session.duration + 'm' : ''}) @ ${outletName}`;
+          continueBtn.href = session.redirectUrl;
+          continueBtn.onclick = () => triggerDirectRedirect(session.redirectUrl, session);
+
+          banner.classList.remove("hidden");
+        }
+      } catch (e) {
+        console.error("Failed to parse saved session", e);
+      }
+    }
+
+    function resetSession() {
+      sessionStorage.removeItem("spa_last_session");
+      document.getElementById("resume-banner").classList.add("hidden");
+      window.location.hash = createHash(1);
+    }
+
+    // Parse state from URL Hash
     function parseHashState() {
       const hash = window.location.hash || "#page-1";
       const [pagePart, queryPart] = hash.split("?");
@@ -343,13 +390,16 @@
       return queryString ? `${hash}?${queryString}` : hash;
     }
 
+    window.addEventListener("pageshow", checkPreviousSession);
     window.addEventListener("hashchange", handleHashChange);
-    document.addEventListener("DOMContentLoaded", handleHashChange);
+    document.addEventListener("DOMContentLoaded", () => {
+      checkPreviousSession();
+      handleHashChange();
+    });
 
     function handleHashChange() {
       const state = parseHashState();
 
-      // Guard redirects if required previous selections are missing
       if (state.step === 2 && !state.type) {
         window.location.hash = createHash(1);
         return;
@@ -469,11 +519,18 @@
 
         if (hasUrl) {
           const redirectUrl = state.duration ? `${baseUrl}?duration=${state.duration}` : baseUrl;
+          const sessionPayload = {
+            type: state.type,
+            service: state.service,
+            duration: state.duration,
+            outletId: outlet.id,
+            redirectUrl: redirectUrl
+          };
 
           const a = document.createElement('a');
           a.href = createHash(5, state.type, state.service, state.duration);
           a.className = "card-location group";
-          a.onclick = () => triggerDirectRedirect(redirectUrl);
+          a.onclick = () => triggerDirectRedirect(redirectUrl, sessionPayload);
           a.innerHTML = `
             <div class="flex items-center justify-between w-full">
               <span class="badge-region">${outlet.region}</span>
@@ -511,8 +568,11 @@
       });
     }
 
-    function triggerDirectRedirect(url) {
-      sessionStorage.setItem("spa_redirected", "true");
+    function triggerDirectRedirect(url, sessionPayload = null) {
+      if (sessionPayload) {
+        sessionStorage.setItem("spa_last_session", JSON.stringify(sessionPayload));
+      }
+
       const redirectBtn = document.getElementById('redirect-link');
       redirectBtn.href = url;
 
