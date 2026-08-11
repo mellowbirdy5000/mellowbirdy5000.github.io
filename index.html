@@ -129,10 +129,56 @@
   }
   </script>
 
-  <style>
-    .bg-custom-grey { background-color: #79797B; }
-    .text-custom-grey { color: #79797B; }
-    .border-custom-grey { border-color: #79797B; }
+  <!-- ========================================================= -->
+  <!-- REUSABLE TAILWIND CLASS DEFINITIONS                       -->
+  <!-- ========================================================= -->
+  <style type="text/tailwindcss">
+    @layer components {
+      .heading-primary {
+        @apply text-2xl font-bold text-gray-900 mb-2;
+      }
+      .text-subtle {
+        @apply text-[#79797B] text-sm mb-6;
+      }
+
+      .btn-option {
+        @apply w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all flex items-center justify-between block;
+      }
+      .btn-option-title {
+        @apply font-semibold text-gray-900 group-hover:text-orange-600;
+      }
+      .btn-option-sub {
+        @apply text-xs text-[#79797B];
+      }
+      .btn-option-arrow {
+        @apply text-[#79797B] group-hover:text-orange-500;
+      }
+
+      .card-location {
+        @apply w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all flex flex-col gap-1.5 block;
+      }
+      .card-location-disabled {
+        @apply w-full p-4 rounded-xl border border-gray-100 bg-gray-50/30 text-left cursor-not-allowed opacity-50 flex flex-col gap-1.5;
+      }
+
+      .badge-region {
+        @apply text-[10px] font-bold uppercase tracking-wider text-orange-600 bg-orange-100 px-2 py-0.5 rounded border border-orange-200;
+      }
+      .badge-region-disabled {
+        @apply text-[10px] font-bold uppercase tracking-wider text-gray-400 bg-gray-100 px-2 py-0.5 rounded border border-gray-200;
+      }
+
+      .icon-circle-orange {
+        @apply w-14 h-14 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 border border-orange-200 shadow-sm;
+      }
+      .icon-circle-emerald {
+        @apply w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-200 shadow-sm;
+      }
+
+      .btn-primary {
+        @apply inline-block py-3 px-6 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-xl shadow-lg transition-all break-all text-sm;
+      }
+    }
 
     .page-step {
       display: none;
@@ -141,7 +187,6 @@
       transition: opacity 0.3s ease-out, transform 0.3s ease-out;
       will-change: opacity, transform;
     }
-
     .page-step.active { display: block; }
     .page-step.visible { opacity: 1; transform: translateY(0) scale(1); }
   </style>
@@ -153,7 +198,7 @@
 
     <!-- Step Header -->
     <header id="step-header" class="w-full flex items-center justify-between pb-4 mb-4 border-b border-gray-200 hidden">
-      <a id="btn-back" href="#page-1" class="text-xs font-semibold text-custom-grey hover:text-orange-500 flex items-center gap-1 transition-colors">
+      <a id="btn-back" href="#page-1" class="text-xs font-semibold text-[#79797B] hover:text-orange-500 flex items-center gap-1 transition-colors">
         &larr; Back
       </a>
       <span id="step-count" class="text-xs font-mono uppercase tracking-widest text-orange-500 font-bold">Step 1</span>
@@ -165,79 +210,76 @@
       <!-- ================= PAGE 1: Customer Type Selection (Welcome) ================= -->
       <section id="page-1" class="page-step active visible">
         <div class="text-center mb-6">
-          <div class="w-14 h-14 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 border border-orange-200 shadow-sm">
+          <div class="icon-circle-orange">
             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
             </svg>
           </div>
           <h1 class="text-2xl font-bold tracking-tight text-gray-900 mb-1">Welcome!</h1>
-          <p class="text-custom-grey text-xs leading-relaxed">
+          <p class="text-[#79797B] text-xs leading-relaxed">
             Please select an option below to continue.
           </p>
         </div>
 
         <div class="space-y-3">
-          <!-- Option 1: New Customer -->
-          <a id="link-user-new" href="#page-4?type=new&service=First%20Visit%20Consultation&duration=60" class="w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all group flex items-center justify-between block">
+          <a id="link-user-new" href="#page-4?type=new&service=First%20Visit%20Consultation&duration=60" class="btn-option group">
             <div>
-              <div class="font-semibold text-gray-900 group-hover:text-orange-600">New Customer</div>
-              <div class="text-xs text-custom-grey">First visit: 60 Mins Initial Consultation</div>
+              <div class="btn-option-title">New Customer</div>
+              <div class="btn-option-sub">First visit: 60 Mins Initial Consultation</div>
             </div>
-            <span class="text-custom-grey group-hover:text-orange-500">&rarr;</span>
+            <span class="btn-option-arrow">&rarr;</span>
           </a>
 
-          <!-- Option 2: Existing Customer -->
-          <a id="link-user-existing" href="#page-2?type=existing" class="w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all group flex items-center justify-between block">
+          <a id="link-user-existing" href="#page-2?type=existing" class="btn-option group">
             <div>
-              <div class="font-semibold text-gray-900 group-hover:text-orange-600">Existing Customer</div>
-              <div class="text-xs text-custom-grey">Returning client: Book new treatment session</div>
+              <div class="btn-option-title">Existing Customer</div>
+              <div class="btn-option-sub">Returning client: Book new treatment session</div>
             </div>
-            <span class="text-custom-grey group-hover:text-orange-500">&rarr;</span>
+            <span class="btn-option-arrow">&rarr;</span>
           </a>
 
-          <!-- Option 3: Check My Appointments (Direct Redirect) -->
-          <a id="link-user-manage" href="#page-5?type=manage" onclick="triggerDirectRedirect('https://example.com/manage-appointments')" class="w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all group flex items-center justify-between block">
+          <a id="link-user-manage" href="#page-5?type=manage" onclick="triggerDirectRedirect('https://example.com/manage-appointments')" class="btn-option group">
             <div>
-              <div class="font-semibold text-gray-900 group-hover:text-orange-600">Check My Appointments</div>
-              <div class="text-xs text-custom-grey">View or manage your upcoming bookings</div>
+              <div class="btn-option-title">Check My Appointments</div>
+              <div class="btn-option-sub">View or manage your upcoming bookings</div>
             </div>
-            <span class="text-custom-grey group-hover:text-orange-500">&rarr;</span>
+            <span class="btn-option-arrow">&rarr;</span>
           </a>
         </div>
       </section>
 
       <!-- ================= PAGE 2: Service Selection ================= -->
       <section id="page-2" class="page-step">
-        <h2 class="text-2xl font-bold text-gray-900 mb-2">Select a Service</h2>
-        <p class="text-custom-grey text-sm mb-6">Choose the service you'd like to book today.</p>
+        <h2 class="heading-primary">Select a Service</h2>
+        <p class="text-subtle">Choose the service you'd like to book today.</p>
         <div id="service-list" class="space-y-3"></div>
       </section>
 
       <!-- ================= PAGE 3: Duration Selection ================= -->
       <section id="page-3" class="page-step">
-        <h2 class="text-2xl font-bold text-gray-900 mb-2">Select Duration</h2>
-        <p class="text-custom-grey text-sm mb-6">Choose how long you want your session to be.</p>
+        <h2 class="heading-primary">Select Duration</h2>
+        <p class="text-subtle">Choose how long you want your session to be.</p>
         <div id="duration-list" class="space-y-3"></div>
       </section>
 
       <!-- ================= PAGE 4: Location Selection ================= -->
       <section id="page-4" class="page-step">
-        <h2 class="text-2xl font-bold text-gray-900 mb-2">Select Location</h2>
-        <p class="text-custom-grey text-sm mb-6">Choose your preferred clinic branch.</p>
+        <h2 class="heading-primary">Select Location</h2>
+        <p class="text-subtle">Choose your preferred clinic branch.</p>
         <div id="location-list" class="space-y-3 max-h-[380px] overflow-y-auto pr-1"></div>
       </section>
 
       <!-- ================= PAGE 5: Redirect / Confirmation ================= -->
       <section id="page-5" class="page-step text-center">
-        <div class="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-200 shadow-sm">
+        <div class="icon-circle-emerald">
           <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
           </svg>
         </div>
-        <h2 id="redirect-heading" class="text-2xl font-bold text-gray-900 mb-2">Redirecting...</h2>
-        <p id="redirect-subtext" class="text-custom-grey text-sm mb-6">Taking you to the appointment portal...</p>
+        <h2 class="heading-primary">Redirecting...</h2>
+        <p class="text-subtle">Taking you to the appointment portal...</p>
         
-        <a id="redirect-link" href="#" class="inline-block py-3 px-6 bg-emerald-600 hover:bg-emerald-500 text-white font-medium rounded-xl shadow-lg transition-all break-all text-sm">
+        <a id="redirect-link" href="#" class="btn-primary">
           Proceeding...
         </a>
       </section>
@@ -245,7 +287,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="pt-6 mt-6 border-t border-gray-200 text-center text-xs text-custom-grey">
+    <footer class="pt-6 mt-6 border-t border-gray-200 text-center text-xs text-[#79797B]">
       &copy; 2026 QuickBook SPA. All rights reserved.
     </footer>
   </main>
@@ -266,7 +308,15 @@
       console.error("Failed to parse JSON datasets", e);
     }
 
-    // Parse state from URL Hash
+    // Force Reset State on BFCache Restore / External Navigation Back
+    window.addEventListener("pageshow", (event) => {
+      const wasRedirected = sessionStorage.getItem("spa_redirected");
+      if (event.persisted || wasRedirected) {
+        sessionStorage.removeItem("spa_redirected");
+        window.location.hash = "#page-1";
+      }
+    });
+
     function parseHashState() {
       const hash = window.location.hash || "#page-1";
       const [pagePart, queryPart] = hash.split("?");
@@ -282,7 +332,6 @@
       return { step, type, service, duration };
     }
 
-    // Build URL hash
     function createHash(step, type = null, service = null, duration = null) {
       let hash = `#page-${step}`;
       const params = new URLSearchParams();
@@ -294,28 +343,11 @@
       return queryString ? `${hash}?${queryString}` : hash;
     }
 
-    // Reset state if back button was clicked from an external page
-    function checkAndResetOnExternalBack() {
-      const navEntries = performance.getEntriesByType("navigation");
-      const isBackNavigation = navEntries.length > 0 && navEntries[0].type === "back_forward";
-      
-      if (isBackNavigation && (!history.state || !history.state.spaInternal)) {
-        window.location.hash = createHash(1);
-      }
-    }
-
     window.addEventListener("hashchange", handleHashChange);
-    document.addEventListener("DOMContentLoaded", () => {
-      checkAndResetOnExternalBack();
-      handleHashChange();
-    });
+    document.addEventListener("DOMContentLoaded", handleHashChange);
 
     function handleHashChange() {
       const state = parseHashState();
-
-      if (!history.state || !history.state.spaInternal) {
-        history.replaceState({ spaInternal: true, step: state.step }, "", window.location.href);
-      }
 
       // Guard redirects if required previous selections are missing
       if (state.step === 2 && !state.type) {
@@ -340,7 +372,6 @@
 
       if (!nextEl) return;
 
-      // Header & Back Link Setup
       const header = document.getElementById('step-header');
       const stepCount = document.getElementById('step-count');
       const backBtn = document.getElementById('btn-back');
@@ -385,7 +416,6 @@
       }, 300);
     }
 
-    // Step 2: Render Service options
     function renderServices(state) {
       const container = document.getElementById('service-list');
       container.innerHTML = '';
@@ -395,16 +425,15 @@
 
         const a = document.createElement('a');
         a.href = createHash(3, state.type, serviceName);
-        a.className = "w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all flex items-center justify-between group block";
+        a.className = "btn-option group";
         a.innerHTML = `
-          <div><div class="font-semibold text-gray-900 group-hover:text-orange-600">${serviceName}</div></div>
-          <span class="text-custom-grey group-hover:text-orange-500">&rarr;</span>
+          <div><div class="btn-option-title">${serviceName}</div></div>
+          <span class="btn-option-arrow">&rarr;</span>
         `;
         container.appendChild(a);
       });
     }
 
-    // Step 3: Render Duration Links
     function renderDurations(state) {
       const container = document.getElementById('duration-list');
       container.innerHTML = '';
@@ -414,23 +443,20 @@
       durations.forEach(item => {
         const a = document.createElement('a');
         a.href = createHash(4, state.type, state.service, item.duration_mins);
-        a.className = "w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all flex items-center justify-between group block";
+        a.className = "btn-option group";
         a.innerHTML = `
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-lg bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-xs shrink-0 border border-orange-200">
               ${item.duration_mins}m
             </div>
-            <div>
-              <div class="font-semibold text-gray-900 group-hover:text-orange-600">${item.label}</div>
-            </div>
+            <div><div class="btn-option-title">${item.label}</div></div>
           </div>
-          <span class="text-custom-grey group-hover:text-orange-500">&rarr;</span>
+          <span class="btn-option-arrow">&rarr;</span>
         `;
         container.appendChild(a);
       });
     }
 
-    // Step 4: Location Selection
     function renderLocations(state) {
       const container = document.getElementById('location-list');
       container.innerHTML = '';
@@ -446,15 +472,15 @@
 
           const a = document.createElement('a');
           a.href = createHash(5, state.type, state.service, state.duration);
-          a.className = "w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all flex flex-col gap-1.5 group block";
+          a.className = "card-location group";
           a.onclick = () => triggerDirectRedirect(redirectUrl);
           a.innerHTML = `
             <div class="flex items-center justify-between w-full">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-orange-600 bg-orange-100 px-2 py-0.5 rounded border border-orange-200">${outlet.region}</span>
+              <span class="badge-region">${outlet.region}</span>
               <span class="text-xs text-emerald-600 font-semibold">Available</span>
             </div>
             <div class="font-semibold text-gray-900 group-hover:text-orange-600 mt-0.5">${outlet.outlet_name}</div>
-            <div class="text-xs text-custom-grey leading-snug">${outlet.address}</div>
+            <div class="text-xs text-[#79797B] leading-snug">${outlet.address}</div>
             <div class="text-[11px] text-gray-500 flex items-center gap-1 pt-1 border-t border-gray-200/60 mt-1">
               <svg class="w-3.5 h-3.5 text-orange-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -465,10 +491,10 @@
           container.appendChild(a);
         } else {
           const div = document.createElement('div');
-          div.className = "w-full p-4 rounded-xl border border-gray-100 bg-gray-50/30 text-left cursor-not-allowed opacity-50 flex flex-col gap-1.5";
+          div.className = "card-location-disabled";
           div.innerHTML = `
             <div class="flex items-center justify-between w-full">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 bg-gray-100 px-2 py-0.5 rounded border border-gray-200">${outlet.region}</span>
+              <span class="badge-region-disabled">${outlet.region}</span>
               <span class="text-xs text-rose-500 font-medium">Unavailable</span>
             </div>
             <div class="font-semibold text-gray-400 mt-0.5">${outlet.outlet_name}</div>
@@ -485,8 +511,8 @@
       });
     }
 
-    // Direct Redirect Helper for Location and Check My Appointments
     function triggerDirectRedirect(url) {
+      sessionStorage.setItem("spa_redirected", "true");
       const redirectBtn = document.getElementById('redirect-link');
       redirectBtn.href = url;
 
