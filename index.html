@@ -9,41 +9,47 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- ========================================================= -->
-  <!-- 1. OUTLETS / BRANCHES DATASET (Now with operating_hours)  -->
+  <!-- 1. OUTLETS DATASET (Uses Short, Unique 'id' Keys)          -->
   <!-- ========================================================= -->
   <script type="application/json" id="outlets-data">
   [
     {
+      "id": "cbd",
       "region": "CBD",
       "outlet_name": "Oriental Remedies TCM Clinic (CBD)",
       "address": "18 Cross Street, #B1-17, Singapore 048423",
       "operating_hours": "Mon - Fri: 10:00 AM - 8:30 PM | Sat: 9:00 AM - 5:00 PM (Closed Sun)"
     },
     {
+      "id": "east-coast",
       "region": "EAST COAST",
       "outlet_name": "Oriental Remedies Plus (East Coast)",
       "address": "171 East Coast Road, #01-04/05/06, Singapore 428877",
       "operating_hours": "Mon - Sun: 9:00 AM - 9:00 PM"
     },
     {
+      "id": "jurong-east",
       "region": "JURONG EAST",
       "outlet_name": "Oriental Remedies (Jurong East)",
       "address": "253 Jurong East Street 24, #01-227, Singapore 600253",
       "operating_hours": "Mon - Sat: 10:00 AM - 8:00 PM (Closed Sun)"
     },
     {
+      "id": "orchard",
       "region": "ORCHARD",
       "outlet_name": "Oriental Remedies Clinic (Orchard)",
       "address": "51 Cuppage Road, #05-07, Singapore 229469",
       "operating_hours": "Mon - Fri: 10:00 AM - 8:00 PM | Sat - Sun: 9:00 AM - 6:00 PM"
     },
     {
+      "id": "punggol",
       "region": "PUNGGOL",
       "outlet_name": "Oriental Remedies Clinic (Punggol)",
       "address": "84 Punggol Way, Punggol Coast Mall (Lobby C), #01-76/77, Singapore 829911",
       "operating_hours": "Mon - Sun: 9:00 AM - 8:30 PM"
     },
     {
+      "id": "upper-thomson",
       "region": "UPPER THOMSON",
       "outlet_name": "Oriental Remedies Clinic (Upper Thomson)",
       "address": "200 Upper Thomson Road, Thomson Imperial Court, #01-10, Singapore 574424",
@@ -53,74 +59,72 @@
   </script>
 
   <!-- ========================================================= -->
-  <!-- 2. BOOKING MATRIX (References outlet_name)                -->
+  <!-- 2. BOOKING MATRIX (References Outlet IDs - No Duplication) -->
   <!-- ========================================================= -->
   <script type="application/json" id="booking-map">
   {
     "Acupuncture & Consultation": {
       "new": {
-        "Oriental Remedies TCM Clinic (CBD)": "https://example.com/book/acu/cbd-new",
-        "Oriental Remedies Plus (East Coast)": "https://example.com/book/acu/east-new",
-        "Oriental Remedies (Jurong East)": "https://example.com/book/acu/jurong-new",
-        "Oriental Remedies Clinic (Orchard)": "",
-        "Oriental Remedies Clinic (Punggol)": "https://example.com/book/acu/punggol-new",
-        "Oriental Remedies Clinic (Upper Thomson)": "https://example.com/book/acu/thomson-new"
+        "cbd": "https://example.com/book/acu/cbd-new",
+        "east-coast": "https://example.com/book/acu/east-new",
+        "jurong-east": "https://example.com/book/acu/jurong-new",
+        "orchard": "",
+        "punggol": "https://example.com/book/acu/punggol-new",
+        "upper-thomson": "https://example.com/book/acu/thomson-new"
       },
       "existing": {
-        "Oriental Remedies TCM Clinic (CBD)": "https://example.com/book/acu/cbd-exist",
-        "Oriental Remedies Plus (East Coast)": "https://example.com/book/acu/east-exist",
-        "Oriental Remedies (Jurong East)": "",
-        "Oriental Remedies Clinic (Orchard)": "https://example.com/book/acu/orchard-exist",
-        "Oriental Remedies Clinic (Punggol)": "",
-        "Oriental Remedies Clinic (Upper Thomson)": "https://example.com/book/acu/thomson-exist"
+        "cbd": "https://example.com/book/acu/cbd-exist",
+        "east-coast": "https://example.com/book/acu/east-exist",
+        "jurong-east": "",
+        "orchard": "https://example.com/book/acu/orchard-exist",
+        "punggol": "",
+        "upper-thomson": "https://example.com/book/acu/thomson-exist"
       }
     },
     "TCM Herbal Consultation": {
       "new": {
-        "Oriental Remedies TCM Clinic (CBD)": "https://example.com/book/herbs/cbd-new",
-        "Oriental Remedies Plus (East Coast)": "https://example.com/book/herbs/east-new",
-        "Oriental Remedies (Jurong East)": "https://example.com/book/herbs/jurong-new",
-        "Oriental Remedies Clinic (Orchard)": "https://example.com/book/herbs/orchard-new",
-        "Oriental Remedies Clinic (Punggol)": "https://example.com/book/herbs/punggol-new",
-        "Oriental Remedies Clinic (Upper Thomson)": "https://example.com/book/herbs/thomson-new"
+        "cbd": "https://example.com/book/herbs/cbd-new",
+        "east-coast": "https://example.com/book/herbs/east-new",
+        "jurong-east": "https://example.com/book/herbs/jurong-new",
+        "orchard": "https://example.com/book/herbs/orchard-new",
+        "punggol": "https://example.com/book/herbs/punggol-new",
+        "upper-thomson": "https://example.com/book/herbs/thomson-new"
       },
       "existing": {
-        "Oriental Remedies TCM Clinic (CBD)": "https://example.com/book/herbs/cbd-exist",
-        "Oriental Remedies Plus (East Coast)": "",
-        "Oriental Remedies (Jurong East)": "https://example.com/book/herbs/jurong-exist",
-        "Oriental Remedies Clinic (Orchard)": "",
-        "Oriental Remedies Clinic (Punggol)": "https://example.com/book/herbs/punggol-exist",
-        "Oriental Remedies Clinic (Upper Thomson)": ""
+        "cbd": "https://example.com/book/herbs/cbd-exist",
+        "east-coast": "",
+        "jurong-east": "https://example.com/book/herbs/jurong-exist",
+        "orchard": "",
+        "punggol": "https://example.com/book/herbs/punggol-exist",
+        "upper-thomson": ""
       }
     },
     "Cupping / Tuina Therapy": {
       "new": {
-        "Oriental Remedies TCM Clinic (CBD)": "",
-        "Oriental Remedies Plus (East Coast)": "https://example.com/book/tuina/east-new",
-        "Oriental Remedies (Jurong East)": "",
-        "Oriental Remedies Clinic (Orchard)": "https://example.com/book/tuina/orchard-new",
-        "Oriental Remedies Clinic (Punggol)": "",
-        "Oriental Remedies Clinic (Upper Thomson)": "https://example.com/book/tuina/thomson-new"
+        "cbd": "",
+        "east-coast": "https://example.com/book/tuina/east-new",
+        "jurong-east": "",
+        "orchard": "https://example.com/book/tuina/orchard-new",
+        "punggol": "",
+        "upper-thomson": "https://example.com/book/tuina/thomson-new"
       },
       "existing": {
-        "Oriental Remedies TCM Clinic (CBD)": "https://example.com/book/tuina/cbd-exist",
-        "Oriental Remedies Plus (East Coast)": "https://example.com/book/tuina/east-exist",
-        "Oriental Remedies (Jurong East)": "https://example.com/book/tuina/jurong-exist",
-        "Oriental Remedies Clinic (Orchard)": "https://example.com/book/tuina/orchard-exist",
-        "Oriental Remedies Clinic (Punggol)": "https://example.com/book/tuina/punggol-exist",
-        "Oriental Remedies Clinic (Upper Thomson)": "https://example.com/book/tuina/thomson-exist"
+        "cbd": "https://example.com/book/tuina/cbd-exist",
+        "east-coast": "https://example.com/book/tuina/east-exist",
+        "jurong-east": "https://example.com/book/tuina/jurong-exist",
+        "orchard": "https://example.com/book/tuina/orchard-exist",
+        "punggol": "https://example.com/book/tuina/punggol-exist",
+        "upper-thomson": "https://example.com/book/tuina/thomson-exist"
       }
     }
   }
   </script>
 
   <style>
-    /* Custom Hex Color Extensions */
     .bg-custom-grey { background-color: #79797B; }
     .text-custom-grey { color: #79797B; }
     .border-custom-grey { border-color: #79797B; }
 
-    /* Lightweight, Hardware-Accelerated Fade & Scale Transition */
     .page-step {
       display: none;
       opacity: 0;
@@ -129,14 +133,8 @@
       will-change: opacity, transform;
     }
 
-    .page-step.active {
-      display: block;
-    }
-
-    .page-step.visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
+    .page-step.active { display: block; }
+    .page-step.visible { opacity: 1; transform: translateY(0) scale(1); }
   </style>
 </head>
 <body class="bg-gray-100 text-gray-800 min-h-screen flex items-center justify-center p-4 selection:bg-orange-500 selection:text-white">
@@ -146,9 +144,9 @@
 
     <!-- Step Header -->
     <header id="step-header" class="w-full flex items-center justify-between pb-4 mb-4 border-b border-gray-200 hidden">
-      <button id="btn-back" onclick="goToPreviousStep()" class="text-xs font-semibold text-custom-grey hover:text-orange-500 flex items-center gap-1 transition-colors">
+      <a id="btn-back" href="#page-1" class="text-xs font-semibold text-custom-grey hover:text-orange-500 flex items-center gap-1 transition-colors">
         &larr; Back
-      </button>
+      </a>
       <span id="step-count" class="text-xs font-mono uppercase tracking-widest text-orange-500 font-bold">Step 1 of 3</span>
     </header>
 
@@ -166,22 +164,17 @@
         <p class="text-custom-grey text-sm mb-8 leading-relaxed">
           Book your appointment in just a few quick steps. Fast, seamless, and hassle-free.
         </p>
-        <button onclick="goToStep(2)" class="w-full py-3.5 px-6 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-xl shadow-lg shadow-orange-500/20 active:scale-[0.98] transition-all">
+        <a href="#page-2" class="inline-block text-center w-full py-3.5 px-6 bg-orange-500 hover:bg-orange-600 text-white font-medium rounded-xl shadow-lg shadow-orange-500/20 active:scale-[0.98] transition-all">
           Get Started &rarr;
-        </button>
+        </a>
       </section>
-
 
       <!-- ================= PAGE 2: Service Selection ================= -->
       <section id="page-2" class="page-step">
         <h2 class="text-2xl font-bold text-gray-900 mb-2">Select a Service</h2>
         <p class="text-custom-grey text-sm mb-6">Choose the service you'd like to book today.</p>
-        
-        <div id="service-list" class="space-y-3">
-          <!-- Dynamically populated from JSON keys -->
-        </div>
+        <div id="service-list" class="space-y-3"></div>
       </section>
-
 
       <!-- ================= PAGE 3: User Type Selection ================= -->
       <section id="page-3" class="page-step">
@@ -189,35 +182,30 @@
         <p class="text-custom-grey text-sm mb-6">Select an option to help us tailor your booking experience.</p>
         
         <div class="space-y-3">
-          <button onclick="selectUserType('new')" class="w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all group flex items-center justify-between">
+          <a id="link-user-new" href="#page-4" class="w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all group flex items-center justify-between block">
             <div>
               <div class="font-semibold text-gray-900 group-hover:text-orange-600">New Customer</div>
               <div class="text-xs text-custom-grey">First time visiting or using our services</div>
             </div>
             <span class="text-custom-grey group-hover:text-orange-500">&rarr;</span>
-          </button>
+          </a>
 
-          <button onclick="selectUserType('existing')" class="w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all group flex items-center justify-between">
+          <a id="link-user-existing" href="#page-4" class="w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all group flex items-center justify-between block">
             <div>
               <div class="font-semibold text-gray-900 group-hover:text-orange-600">Existing Customer</div>
               <div class="text-xs text-custom-grey">Returning client with an existing profile</div>
             </div>
             <span class="text-custom-grey group-hover:text-orange-500">&rarr;</span>
-          </button>
+          </a>
         </div>
       </section>
-
 
       <!-- ================= PAGE 4: Location Selection ================= -->
       <section id="page-4" class="page-step">
         <h2 class="text-2xl font-bold text-gray-900 mb-2">Select Location</h2>
         <p class="text-custom-grey text-sm mb-6">Choose your preferred clinic branch. Unavailable options are disabled based on your selection.</p>
-
-        <div id="location-list" class="space-y-3 max-h-[380px] overflow-y-auto pr-1">
-          <!-- Dynamically populated via JS -->
-        </div>
+        <div id="location-list" class="space-y-3 max-h-[380px] overflow-y-auto pr-1"></div>
       </section>
-
 
       <!-- ================= PAGE 5: Redirect / Confirmation ================= -->
       <section id="page-5" class="page-step text-center">
@@ -242,16 +230,13 @@
     </footer>
   </main>
 
-  <!-- App Logic -->
+  <!-- App Logic & Stateful Hash Router -->
   <script>
     let outletsData = [];
     let bookingConfig = {};
-    let selectedService = null;
-    let selectedUserType = null;
-    let selectedLocation = null;
     let currentStep = 1;
+    let redirectTimeout = null;
 
-    // Load JSON configurations on start
     try {
       outletsData = JSON.parse(document.getElementById('outlets-data').textContent);
       bookingConfig = JSON.parse(document.getElementById('booking-map').textContent);
@@ -259,33 +244,100 @@
       console.error("Failed to parse JSON datasets", e);
     }
 
-    // Initialize Services List on Load
-    document.addEventListener("DOMContentLoaded", renderServices);
+    // Parse state from URL Hash (#page-3?service=Acupuncture...&type=new)
+    function parseHashState() {
+      const hash = window.location.hash || "#page-1";
+      const [pagePart, queryPart] = hash.split("?");
+      
+      const stepMatch = pagePart.match(/^#page-(\d+)$/);
+      const step = stepMatch ? parseInt(stepMatch[1], 10) : 1;
 
-    function goToStep(nextStep) {
+      const params = new URLSearchParams(queryPart || "");
+      const service = params.get("service") ? decodeURIComponent(params.get("service")) : null;
+      const type = params.get("type") || null;
+
+      return { step, service, type };
+    }
+
+    // Build URL hash with encoded params
+    function createHash(step, service = null, type = null) {
+      let hash = `#page-${step}`;
+      const params = new URLSearchParams();
+      if (service) params.set("service", service);
+      if (type) params.set("type", type);
+      
+      const queryString = params.toString();
+      return queryString ? `${hash}?${queryString}` : hash;
+    }
+
+    window.addEventListener("hashchange", handleHashChange);
+    document.addEventListener("DOMContentLoaded", () => {
+      renderServices();
+      handleHashChange();
+    });
+
+    function handleHashChange() {
+      const state = parseHashState();
+
+      // Guard redirect if user directly accesses later steps without selections
+      if (state.step === 3 && !state.service) {
+        window.location.hash = createHash(2);
+        return;
+      }
+      if (state.step === 4 && (!state.service || !state.type)) {
+        window.location.hash = createHash(2);
+        return;
+      }
+
+      updateStepLinks(state);
+      goToStep(state.step, state);
+    }
+
+    // Dynamic hyperlink updates based on active state
+    function updateStepLinks(state) {
+      const linkNew = document.getElementById('link-user-new');
+      const linkExisting = document.getElementById('link-user-existing');
+
+      if (linkNew && linkExisting) {
+        linkNew.href = createHash(4, state.service, "new");
+        linkExisting.href = createHash(4, state.service, "existing");
+      }
+    }
+
+    function goToStep(nextStep, state) {
       const currentEl = document.getElementById(`page-${currentStep}`);
       const nextEl = document.getElementById(`page-${nextStep}`);
 
-      if (!nextEl || currentStep === nextStep) return;
+      if (!nextEl) return;
 
-      // Update Header Progress
+      // Header & Back Link Setup
       const header = document.getElementById('step-header');
       const stepCount = document.getElementById('step-count');
+      const backBtn = document.getElementById('btn-back');
+
       if (nextStep > 1 && nextStep < 5) {
         header.classList.remove('hidden');
         stepCount.textContent = `Step ${nextStep - 1} of 3`;
+        
+        // Dynamically point Back link to the previous step while preserving query state
+        if (nextStep === 2) backBtn.href = createHash(1);
+        if (nextStep === 3) backBtn.href = createHash(2);
+        if (nextStep === 4) backBtn.href = createHash(3, state.service);
       } else {
         header.classList.add('hidden');
       }
 
-      // Animate out current step
-      currentEl.classList.remove('visible');
+      if (currentStep === nextStep && nextEl.classList.contains('active')) {
+        if (nextStep === 4) renderLocations(state);
+        return;
+      }
+
+      if (currentEl) currentEl.classList.remove('visible');
       
       setTimeout(() => {
-        currentEl.classList.remove('active');
+        document.querySelectorAll('.page-step').forEach(el => el.classList.remove('active', 'visible'));
         
-        // Render dynamic views
-        if (nextStep === 4) renderLocations();
+        if (nextStep === 4) renderLocations(state);
         
         nextEl.classList.add('active');
         void nextEl.offsetWidth; // Force reflow
@@ -295,62 +347,41 @@
       }, 300);
     }
 
-    function goToPreviousStep() {
-      if (currentStep > 1) {
-        goToStep(currentStep - 1);
-      }
-    }
-
-    // Step 2: Service Selection Logic
+    // Step 2: Render Service Links carrying the target service in the URL anchor
     function renderServices() {
       const container = document.getElementById('service-list');
       container.innerHTML = '';
 
       Object.keys(bookingConfig).forEach(serviceName => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = "w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all flex items-center justify-between group";
-        btn.onclick = () => selectService(serviceName);
-        btn.innerHTML = `
-          <div>
-            <div class="font-semibold text-gray-900 group-hover:text-orange-600">${serviceName}</div>
-          </div>
+        const a = document.createElement('a');
+        a.href = createHash(3, serviceName);
+        a.className = "w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all flex items-center justify-between group block";
+        a.innerHTML = `
+          <div><div class="font-semibold text-gray-900 group-hover:text-orange-600">${serviceName}</div></div>
           <span class="text-custom-grey group-hover:text-orange-500">&rarr;</span>
         `;
-        container.appendChild(btn);
+        container.appendChild(a);
       });
     }
 
-    function selectService(serviceName) {
-      selectedService = serviceName;
-      goToStep(3);
-    }
-
-    // Step 3: User Type Selection Logic
-    function selectUserType(type) {
-      selectedUserType = type;
-      goToStep(4);
-    }
-
-    // Step 4: Location Selection Logic (Renders address & operating hours)
-    function renderLocations() {
+    // Step 4: Location Selection (Looks up URLs using Outlet ID)
+    function renderLocations(state) {
       const container = document.getElementById('location-list');
       container.innerHTML = '';
 
-      const availableMappings = (bookingConfig[selectedService] && bookingConfig[selectedService][selectedUserType]) || {};
+      const availableMappings = (bookingConfig[state.service] && bookingConfig[state.service][state.type]) || {};
 
       outletsData.forEach(outlet => {
-        const redirectUrl = availableMappings[outlet.outlet_name] || "";
+        // Look up by ID instead of long outlet name string
+        const redirectUrl = availableMappings[outlet.id] || "";
         const hasUrl = Boolean(redirectUrl && redirectUrl.trim().length > 0);
 
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.disabled = !hasUrl;
-
         if (hasUrl) {
-          btn.className = "w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all flex flex-col gap-1.5 group";
-          btn.onclick = () => handleLocationSelect(outlet.outlet_name, redirectUrl);
-          btn.innerHTML = `
+          const a = document.createElement('a');
+          a.href = createHash(5, state.service, state.type);
+          a.className = "w-full p-4 rounded-xl border border-gray-200 bg-gray-50/50 hover:bg-orange-50/50 hover:border-orange-400 text-left transition-all flex flex-col gap-1.5 group block";
+          a.onclick = () => handleLocationSelect(redirectUrl);
+          a.innerHTML = `
             <div class="flex items-center justify-between w-full">
               <span class="text-[10px] font-bold uppercase tracking-wider text-orange-600 bg-orange-100 px-2 py-0.5 rounded border border-orange-200">${outlet.region}</span>
               <span class="text-xs text-emerald-600 font-semibold">Available</span>
@@ -361,12 +392,14 @@
               <svg class="w-3.5 h-3.5 text-orange-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
-              <span class="">${outlet.operating_hours || 'Hours unavailable'}</span>
+              <span class="truncate">${outlet.operating_hours || 'Hours unavailable'}</span>
             </div>
           `;
+          container.appendChild(a);
         } else {
-          btn.className = "w-full p-4 rounded-xl border border-gray-100 bg-gray-50/30 text-left cursor-not-allowed opacity-50 flex flex-col gap-1.5";
-          btn.innerHTML = `
+          const div = document.createElement('div');
+          div.className = "w-full p-4 rounded-xl border border-gray-100 bg-gray-50/30 text-left cursor-not-allowed opacity-50 flex flex-col gap-1.5";
+          div.innerHTML = `
             <div class="flex items-center justify-between w-full">
               <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400 bg-gray-100 px-2 py-0.5 rounded border border-gray-200">${outlet.region}</span>
               <span class="text-xs text-rose-500 font-medium">Unavailable</span>
@@ -377,24 +410,21 @@
               <svg class="w-3.5 h-3.5 text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
               </svg>
-              <span class="">${outlet.operating_hours || 'Hours unavailable'}</span>
+              <span class="truncate">${outlet.operating_hours || 'Hours unavailable'}</span>
             </div>
           `;
+          container.appendChild(div);
         }
-
-        container.appendChild(btn);
       });
     }
 
-    // Step 5: Final Redirect Logic
-    function handleLocationSelect(locationName, url) {
-      selectedLocation = locationName;
+    // Step 5: Redirect to target booking page
+    function handleLocationSelect(url) {
       const redirectBtn = document.getElementById('redirect-link');
       redirectBtn.href = url;
-      
-      goToStep(5);
 
-      setTimeout(() => {
+      if (redirectTimeout) clearTimeout(redirectTimeout);
+      redirectTimeout = setTimeout(() => {
         window.location.href = url;
       }, 1800);
     }
