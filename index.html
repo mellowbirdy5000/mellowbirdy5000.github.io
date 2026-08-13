@@ -9,7 +9,224 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- ========================================================= -->
-  <!-- 1. OUTLETS DATASET                                        -->
+  <!-- 1. BOOKING MATRIX                                         -->
+  <!-- ========================================================= -->
+  <script type="application/json" id="booking-map">
+  {
+    "First Visit Consultation": {
+      "cbd": [ { "mins": 60, "label": "CBD 60 Mins First Visit Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/100" } ],
+      "east-coast": [ { "mins": 60, "label": "EC 60 Mins First Visit Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/22" } ],
+      "jurong-east": [ { "mins": 60, "label": "JE 60 Mins First Visit Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/16" } ],
+      "orchard": [ { "mins": 60, "label": "OC 60 Mins First Visit Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/5" } ],
+      "punggol": [ { "mins": 60, "label": "PDD 60 Mins First Visit Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/74" } ],
+      "upper-thomson": [ { "mins": 60, "label": "UT 60 Mins First Visit Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/13" } ]
+    },
+    "Consultation": {
+      "cbd": [
+        { "mins": 15, "label": "CBD 15 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/100" },
+        { "mins": 30, "label": "CBD 30 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/92" },
+        { "mins": 45, "label": "CBD 45 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/93" }
+      ],
+      "east-coast": [
+        { "mins": 30, "label": "EC 30 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/21" },
+        { "mins": 45, "label": "EC 45 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/115" },
+        { "mins": 60, "label": "EC 60 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/22" }
+      ],
+      "jurong-east": [
+        { "mins": 30, "label": "JE 30 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/17" },
+        { "mins": 45, "label": "JE 45 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/99" },
+        { "mins": 60, "label": "JE 60 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/16" }
+      ],
+      "orchard": [
+        { "mins": 30, "label": "OC 30 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/2" },
+        { "mins": 45, "label": "OC 45 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/114" },
+        { "mins": 60, "label": "OC 60 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/5" }
+      ],
+      "punggol": [
+        { "mins": 30, "label": "PDD 30 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/73" },
+        { "mins": 45, "label": "PDD 45 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/116" },
+        { "mins": 60, "label": "PDD 60 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/74" }
+      ],
+      "upper-thomson": [
+        { "mins": 30, "label": "UT 30 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/12" },
+        { "mins": 45, "label": "UT 45 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/101" },
+        { "mins": 60, "label": "UT 60 Mins Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/13" }
+      ]
+    },
+    "Pediatric Consultation": {
+      "cbd": [],
+      "east-coast": [
+        { "mins": 30, "label": "EC 30 Mins Pediatric Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/50" }
+      ],
+      "jurong-east": [
+        { "mins": 30, "label": "JE 30 Mins Pediatric Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/49" }
+      ],
+      "orchard": [
+        { "mins": 30, "label": "OC 30 Mins Pediatric Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/47" }
+      ],
+      "punggol": [
+        { "mins": 30, "label": "PDD 30 Mins Pediatric Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/75" }
+      ],
+      "upper-thomson": [
+        { "mins": 30, "label": "UT 30 Mins Pediatric Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/48" }
+      ]
+    },
+    "Lead Physician Consultation": {
+      "cbd": [],
+      "east-coast": [],
+      "jurong-east": [],
+      "orchard": [
+        { "mins": 30, "label": "OC 30 Mins Lead Phy Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/67" },
+        { "mins": 60, "label": "OC 60 Mins Lead Phy Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/68" }
+      ],
+      "punggol": [],
+      "upper-thomson": [
+        { "mins": 30, "label": "UT 30 Mins Lead Phy Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/70" },
+        { "mins": 60, "label": "UT 60 Mins Lead Phy Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/71" }
+      ]
+    },
+    "Lead Physician Pediatric Consultation": {
+      "cbd": [],
+      "east-coast": [],
+      "jurong-east": [],
+      "orchard": [
+        { "mins": 30, "label": "OC 30 Mins Lead Phy Pediatric Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/69" }
+      ],
+      "punggol": [],
+      "upper-thomson": [
+        { "mins": 30, "label": "UT 30 Mins Lead Phy Pediatric Consultation", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/72" }
+      ]
+    },
+    "Electro Lymphatic Therapy (ELT)": {
+      "cbd": [
+        { "mins": 30, "label": "CBD 30 Mins Head/Face ELT", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/94" },
+        { "mins": 60, "label": "CBD 60 Mins Precision ELT", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/95" },
+        { "mins": 75, "label": "CBD 75 Mins Electro Lymphatic Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/102" },
+        { "mins": 105, "label": "CBD 105 Mins Deep ELT", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/96" }
+      ],
+      "east-coast": [
+        { "mins": 75, "label": "EC 75 Mins Electro Lymphatic Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/65" },
+        { "mins": 95, "label": "EC 95 Mins Electro Lymphatic Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/66" }
+      ],
+      "jurong-east": [
+        { "mins": 75, "label": "JE 75 Mins Electro Lymphatic Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/63" },
+        { "mins": 95, "label": "JE 95 Mins Electro Lymphatic Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/64" }
+      ],
+      "orchard": [],
+      "punggol": [
+        { "mins": 75, "label": "PDD 75 Mins Electro Lymphatic Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/76" },
+        { "mins": 95, "label": "PDD 95 Mins Electro Lymphatic Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/60" }
+      ],
+      "upper-thomson": [
+        { "mins": 75, "label": "UT 75 Mins Electro Lymphatic Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/62" },
+        { "mins": 95, "label": "UT 95 Mins Electro Lymphatic Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/61" }
+      ]
+    },
+    "Cell Pro Therapy": {
+      "cbd": [
+        { "mins": 30, "label": "CBD Cell Pro Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/97" }
+      ],
+      "east-coast": [
+        { "mins": 30, "label": "EC Cell Pro Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/25" }
+      ],
+      "jurong-east": [
+        { "mins": 30, "label": "JE Cell Pro Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/20" }
+      ],
+      "orchard": [
+        { "mins": 30, "label": "OC Cell Pro Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/4" }
+      ],
+      "punggol": [
+        { "mins": 30, "label": "PDD Cell Pro Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/77" },
+        { "mins": 30, "label": "PDD Cell Pro Therapy Lite", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/88" }
+      ],
+      "upper-thomson": [
+        { "mins": 30, "label": "UT Cell Pro Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/15" }
+      ]
+    },
+    "Far Infrared Therapy": {
+      "cbd": [],
+      "east-coast": [
+        { "mins": 30, "label": "EC Far Infrared Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/31" }
+      ],
+      "jurong-east": [
+        { "mins": 30, "label": "JE Far Infrared Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/29" }
+      ],
+      "orchard": [
+        { "mins": 30, "label": "OC Far Infrared Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/26" }
+      ],
+      "punggol": [
+        { "mins": 30, "label": "PDD Far Infrared Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/78" }
+      ],
+      "upper-thomson": [
+        { "mins": 30, "label": "UT Far Infrared Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/27" }
+      ]
+    },
+    "Health Coaching": {
+      "cbd": [],
+      "east-coast": [
+        { "mins": 30, "label": "EC 30 Mins Health Coaching", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/85" },
+        { "mins": 45, "label": "EC 45 Mins Health Coaching", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/84" },
+        { "mins": 60, "label": "EC 60 Mins Health Coaching", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/83" }
+      ],
+      "jurong-east": [
+        { "mins": 30, "label": "JE 30 Mins Health Coaching", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/87" },
+        { "mins": 45, "label": "JE 45 Mins Health Coaching", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/86" },
+        { "mins": 60, "label": "JE 60 Mins Health Coaching", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/79" }
+      ],
+      "orchard": [
+        { "mins": 30, "label": "OC 30 Mins Health Coaching", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/7" },
+        { "mins": 45, "label": "OC 45 Mins Health Coaching", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/8" },
+        { "mins": 60, "label": "OC 60 Mins Health Coaching", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/46" }
+      ],
+      "punggol": [
+        { "mins": 30, "label": "PDD 30 Mins Health Coaching", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/89" },
+        { "mins": 45, "label": "PDD 45 Mins Health Coaching", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/91" },
+        { "mins": 60, "label": "PDD 60 Mins Health Coaching", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/90" }
+      ],
+      "upper-thomson": [
+        { "mins": 30, "label": "UT 30 Mins Health Coaching", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/80" },
+        { "mins": 45, "label": "UT 45 Mins Health Coaching", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/81" },
+        { "mins": 60, "label": "UT 60 Mins Health Coaching", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/82" }
+      ]
+    },
+    "Explorative Demo": {
+      "cbd": [
+        { "mins": 10, "label": "CBD Explorative Demo", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/103" }
+      ],
+      "east-coast": [],
+      "jurong-east": [],
+      "orchard": [],
+      "punggol": [
+        { "mins": 10, "label": "PDD Explorative Demo", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/108" }
+      ],
+      "upper-thomson": []
+    },
+    "Wellness & Other Therapies": {
+      "cbd": [
+        { "mins": 30, "label": "CBD Vibro-acoustic Therapy", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/98" }
+      ],
+      "east-coast": [
+        { "mins": 30, "label": "EC 30 Mins Wellness Service", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/111" }
+      ],
+      "jurong-east": [
+        { "mins": 30, "label": "JE 1 Wellness Service", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/51" },
+        { "mins": 30, "label": "JE 2 Wellness Service", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/52" },
+        { "mins": 30, "label": "JE 3 Wellness Service", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/53" },
+        { "mins": 30, "label": "JE 30 Mins Wellness Service", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/112" }
+      ],
+      "orchard": [
+        { "mins": 30, "label": "OC 30 Mins Wellness Service", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/110" }
+      ],
+      "punggol": [],
+      "upper-thomson": [
+        { "mins": 30, "label": "UT 30 Mins Wellness Service", "url": "https://orientalremediesgroup.simplybook.vip/v2/#book/service/109" }
+      ]
+    }
+  }
+  </script>
+
+  <!-- ========================================================= -->
+  <!-- 2. OUTLETS DATASET                                        -->
   <!-- ========================================================= -->
   <script type="application/json" id="outlets-data">
   [
@@ -56,223 +273,6 @@
       "operating_hours": "Mon - Fri, Sun: 9:00 AM - 9:00 PM | Sat: 9:00 AM - 6:00 PM"
     }
   ]
-  </script>
-
-  <!-- ========================================================= -->
-  <!-- 2. BOOKING MATRIX                                         -->
-  <!-- ========================================================= -->
-  <script type="application/json" id="booking-map">
-  {
-    "First Visit Consultation": {
-      "cbd": [ { "mins": 60, "label": "CBD 60 Mins First Visit Consultation", "url": "https://example.com/book/consultation/cbd-60" } ],
-      "east-coast": [ { "mins": 60, "label": "EC 60 Mins First Visit Consultation", "url": "https://example.com/book/consultation/east-60" } ],
-      "jurong-east": [ { "mins": 60, "label": "JE 60 Mins First Visit Consultation", "url": "https://example.com/book/consultation/jurong-60" } ],
-      "orchard": [ { "mins": 60, "label": "OC 60 Mins First Visit Consultation", "url": "https://example.com/book/consultation/orchard-60" } ],
-      "punggol": [ { "mins": 60, "label": "PDD 60 Mins First Visit Consultation", "url": "https://example.com/book/consultation/punggol-60" } ],
-      "upper-thomson": [ { "mins": 60, "label": "UT 60 Mins First Visit Consultation", "url": "https://example.com/book/consultation/thomson-60" } ]
-    },
-    "Consultation": {
-      "cbd": [
-        { "mins": 15, "label": "CBD 15 Mins Consultation", "url": "https://example.com/book/consultation/cbd-15" },
-        { "mins": 30, "label": "CBD 30 Mins Consultation", "url": "https://example.com/book/consultation/cbd-30" },
-        { "mins": 45, "label": "CBD 45 Mins Consultation", "url": "https://example.com/book/consultation/cbd-45" }
-      ],
-      "east-coast": [
-        { "mins": 30, "label": "EC 30 Mins Consultation", "url": "https://example.com/book/consultation/east-30" },
-        { "mins": 45, "label": "EC 45 Mins Consultation", "url": "https://example.com/book/consultation/east-45" },
-        { "mins": 60, "label": "EC 60 Mins Consultation", "url": "https://example.com/book/consultation/east-60" }
-      ],
-      "jurong-east": [
-        { "mins": 30, "label": "JE 30 Mins Consultation", "url": "https://example.com/book/consultation/jurong-30" },
-        { "mins": 45, "label": "JE 45 Mins Consultation", "url": "https://example.com/book/consultation/jurong-45" },
-        { "mins": 60, "label": "JE 60 Mins Consultation", "url": "https://example.com/book/consultation/jurong-60" }
-      ],
-      "orchard": [
-        { "mins": 30, "label": "OC 30 Mins Consultation", "url": "https://example.com/book/consultation/orchard-30" },
-        { "mins": 45, "label": "OC 45 Mins Consultation", "url": "https://example.com/book/consultation/orchard-45" },
-        { "mins": 60, "label": "OC 60 Mins Consultation", "url": "https://example.com/book/consultation/orchard-60" }
-      ],
-      "punggol": [
-        { "mins": 30, "label": "PDD 30 Mins Consultation", "url": "https://example.com/book/consultation/punggol-30" },
-        { "mins": 45, "label": "PDD 45 Mins Consultation", "url": "https://example.com/book/consultation/punggol-45" },
-        { "mins": 60, "label": "PDD 60 Mins Consultation", "url": "https://example.com/book/consultation/punggol-60" }
-      ],
-      "upper-thomson": [
-        { "mins": 30, "label": "UT 30 Mins Consultation", "url": "https://example.com/book/consultation/thomson-30" },
-        { "mins": 45, "label": "UT 45 Mins Consultation", "url": "https://example.com/book/consultation/thomson-45" },
-        { "mins": 60, "label": "UT 60 Mins Consultation", "url": "https://example.com/book/consultation/thomson-60" }
-      ]
-    },
-    "Pediatric Consultation": {
-      "cbd": [],
-      "east-coast": [
-        { "mins": 30, "label": "EC 30 Mins Pediatric Consultation", "url": "https://example.com/book/pediatric/east-30" }
-      ],
-      "jurong-east": [
-        { "mins": 30, "label": "JE 30 Mins Pediatric Consultation", "url": "https://example.com/book/pediatric/jurong-30" }
-      ],
-      "orchard": [
-        { "mins": 30, "label": "OC 30 Mins Pediatric Consultation", "url": "https://example.com/book/pediatric/orchard-30" }
-      ],
-      "punggol": [
-        { "mins": 30, "label": "PDD 30 Mins Pediatric Consultation", "url": "https://example.com/book/pediatric/punggol-30" }
-      ],
-      "upper-thomson": [
-        { "mins": 30, "label": "UT 30 Mins Pediatric Consultation", "url": "https://example.com/book/pediatric/thomson-30" }
-      ]
-    },
-    "Lead Physician Consultation": {
-      "cbd": [],
-      "east-coast": [],
-      "jurong-east": [],
-      "orchard": [
-        { "mins": 30, "label": "OC 30 Mins Lead Phy Consultation", "url": "https://example.com/book/lead-phy/orchard-30" },
-        { "mins": 60, "label": "OC 60 Mins Lead Phy Consultation", "url": "https://example.com/book/lead-phy/orchard-60" }
-      ],
-      "punggol": [],
-      "upper-thomson": [
-        { "mins": 30, "label": "UT 30 Mins Lead Phy Consultation", "url": "https://example.com/book/lead-phy/thomson-30" },
-        { "mins": 60, "label": "UT 60 Mins Lead Phy Consultation", "url": "https://example.com/book/lead-phy/thomson-60" }
-      ]
-    },
-    "Lead Physician Pediatric Consultation": {
-      "cbd": [],
-      "east-coast": [],
-      "jurong-east": [],
-      "orchard": [
-        { "mins": 30, "label": "OC 30 Mins Lead Phy Pediatric Consultation", "url": "https://example.com/book/lead-phy-pediatric/orchard-30" }
-      ],
-      "punggol": [],
-      "upper-thomson": [
-        { "mins": 30, "label": "UT 30 Mins Lead Phy Pediatric Consultation", "url": "https://example.com/book/lead-phy-pediatric/thomson-30" }
-      ]
-    },
-    "Electro Lymphatic Therapy (ELT)": {
-      "cbd": [
-        { "mins": 30, "label": "CBD 30 Mins Head/Face ELT", "url": "https://example.com/book/elt/cbd-30" },
-        { "mins": 60, "label": "CBD 60 Mins Precision ELT", "url": "https://example.com/book/elt/cbd-60" },
-        { "mins": 75, "label": "CBD 75 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/cbd-75" },
-        { "mins": 105, "label": "CBD 105 Mins Deep ELT", "url": "https://example.com/book/elt/cbd-105" }
-      ],
-      "east-coast": [
-        { "mins": 75, "label": "EC 75 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/east-75" },
-        { "mins": 95, "label": "EC 95 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/east-95" }
-      ],
-      "jurong-east": [
-        { "mins": 75, "label": "JE 75 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/jurong-75" },
-        { "mins": 95, "label": "JE 95 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/jurong-95" }
-      ],
-      "orchard": [],
-      "punggol": [
-        { "mins": 75, "label": "PDD 75 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/punggol-75" },
-        { "mins": 95, "label": "PDD 95 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/punggol-95" }
-      ],
-      "upper-thomson": [
-        { "mins": 75, "label": "UT 75 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/thomson-75" },
-        { "mins": 95, "label": "UT 95 Mins Electro Lymphatic Therapy", "url": "https://example.com/book/elt/thomson-95" }
-      ]
-    },
-    "Cell Pro Therapy": {
-      "cbd": [
-        { "mins": 30, "label": "CBD Cell Pro Therapy", "url": "https://example.com/book/cell-pro/cbd-30" }
-      ],
-      "east-coast": [
-        { "mins": 30, "label": "EC Cell Pro Therapy", "url": "https://example.com/book/cell-pro/east-30" }
-      ],
-      "jurong-east": [
-        { "mins": 30, "label": "JE Cell Pro Therapy", "url": "https://example.com/book/cell-pro/jurong-30" }
-      ],
-      "orchard": [
-        { "mins": 30, "label": "OC Cell Pro Therapy", "url": "https://example.com/book/cell-pro/orchard-30" }
-      ],
-      "punggol": [
-        { "mins": 30, "label": "PDD Cell Pro Therapy", "url": "https://example.com/book/cell-pro/punggol-30" },
-        { "mins": 30, "label": "PDD Cell Pro Therapy Lite", "url": "https://example.com/book/cell-pro/punggol-30-lite" }
-      ],
-      "upper-thomson": [
-        { "mins": 30, "label": "UT Cell Pro Therapy", "url": "https://example.com/book/cell-pro/thomson-30" }
-      ]
-    },
-    "Far Infrared Therapy": {
-      "cbd": [],
-      "east-coast": [
-        { "mins": 30, "label": "EC Far Infrared Therapy", "url": "https://example.com/book/far-infrared/east-30" }
-      ],
-      "jurong-east": [
-        { "mins": 30, "label": "JE Far Infrared Therapy", "url": "https://example.com/book/far-infrared/jurong-30" }
-      ],
-      "orchard": [
-        { "mins": 30, "label": "OC Far Infrared Therapy", "url": "https://example.com/book/far-infrared/orchard-30" }
-      ],
-      "punggol": [
-        { "mins": 30, "label": "PDD Far Infrared Therapy", "url": "https://example.com/book/far-infrared/punggol-30" }
-      ],
-      "upper-thomson": [
-        { "mins": 30, "label": "UT Far Infrared Therapy", "url": "https://example.com/book/far-infrared/thomson-30" }
-      ]
-    },
-    "Health Coaching": {
-      "cbd": [],
-      "east-coast": [
-        { "mins": 30, "label": "EC 30 Mins Health Coaching", "url": "https://example.com/book/health-coaching/east-30" },
-        { "mins": 45, "label": "EC 45 Mins Health Coaching", "url": "https://example.com/book/health-coaching/east-45" },
-        { "mins": 60, "label": "EC 60 Mins Health Coaching", "url": "https://example.com/book/health-coaching/east-60" }
-      ],
-      "jurong-east": [
-        { "mins": 30, "label": "JE 30 Mins Health Coaching", "url": "https://example.com/book/health-coaching/jurong-30" },
-        { "mins": 45, "label": "JE 45 Mins Health Coaching", "url": "https://example.com/book/health-coaching/jurong-45" },
-        { "mins": 60, "label": "JE 60 Mins Health Coaching", "url": "https://example.com/book/health-coaching/jurong-60" }
-      ],
-      "orchard": [
-        { "mins": 30, "label": "OC 30 Mins Health Coaching", "url": "https://example.com/book/health-coaching/orchard-30" },
-        { "mins": 45, "label": "OC 45 Mins Health Coaching", "url": "https://example.com/book/health-coaching/orchard-45" },
-        { "mins": 60, "label": "OC 60 Mins Health Coaching", "url": "https://example.com/book/health-coaching/orchard-60" }
-      ],
-      "punggol": [
-        { "mins": 30, "label": "PDD 30 Mins Health Coaching", "url": "https://example.com/book/health-coaching/punggol-30" },
-        { "mins": 45, "label": "PDD 45 Mins Health Coaching", "url": "https://example.com/book/health-coaching/punggol-45" },
-        { "mins": 60, "label": "PDD 60 Mins Health Coaching", "url": "https://example.com/book/health-coaching/punggol-60" }
-      ],
-      "upper-thomson": [
-        { "mins": 30, "label": "UT 30 Mins Health Coaching", "url": "https://example.com/book/health-coaching/thomson-30" },
-        { "mins": 45, "label": "UT 45 Mins Health Coaching", "url": "https://example.com/book/health-coaching/thomson-45" },
-        { "mins": 60, "label": "UT 60 Mins Health Coaching", "url": "https://example.com/book/health-coaching/thomson-60" }
-      ]
-    },
-    "Explorative Demo": {
-      "cbd": [
-        { "mins": 10, "label": "CBD Explorative Demo", "url": "https://example.com/book/demo/cbd-10" }
-      ],
-      "east-coast": [],
-      "jurong-east": [],
-      "orchard": [],
-      "punggol": [
-        { "mins": 10, "label": "PDD Explorative Demo", "url": "https://example.com/book/demo/punggol-10" }
-      ],
-      "upper-thomson": []
-    },
-    "Wellness & Other Therapies": {
-      "cbd": [
-        { "mins": 30, "label": "CBD Vibro-acoustic Therapy", "url": "https://example.com/book/wellness/cbd-30" }
-      ],
-      "east-coast": [
-        { "mins": 30, "label": "EC 30 Mins Wellness Service", "url": "https://example.com/book/wellness/east-30" }
-      ],
-      "jurong-east": [
-        { "mins": 30, "label": "JE 1 Wellness Service", "url": "https://example.com/book/wellness/jurong-30-1" },
-        { "mins": 30, "label": "JE 2 Wellness Service", "url": "https://example.com/book/wellness/jurong-30-2" },
-        { "mins": 30, "label": "JE 3 Wellness Service", "url": "https://example.com/book/wellness/jurong-30-3" },
-        { "mins": 30, "label": "JE 30 Mins Wellness Service", "url": "https://example.com/book/wellness/jurong-30" }
-      ],
-      "orchard": [
-        { "mins": 30, "label": "OC 30 Mins Wellness Service", "url": "https://example.com/book/wellness/orchard-30" }
-      ],
-      "punggol": [],
-      "upper-thomson": [
-        { "mins": 30, "label": "UT 30 Mins Wellness Service", "url": "https://example.com/book/wellness/thomson-30" }
-      ]
-    }
-  }
   </script>
 
   <!-- ========================================================= -->
@@ -408,7 +408,7 @@
             <span class="btn-option-arrow">&rarr;</span>
           </a>
 
-          <a id="link-user-manage" href="#page-5?type=manage" onclick="handleManageRedirect('https://example.com/manage-appointments', event)" class="btn-option group">
+          <a id="link-user-manage" href="#page-5?type=manage" onclick="handleManageRedirect('https://orientalremediesgroup.simplybook.vip/v2/#client/appointments', event)" class="btn-option group">
             <div>
               <div class="btn-option-title">Check My Appointments</div>
               <div class="btn-option-sub">View or manage your upcoming bookings</div>
@@ -678,7 +678,7 @@
       Object.values(serviceLocations).forEach(durationList => {
         if (Array.isArray(durationList)) {
           durationList.forEach(item => {
-            if (!durationMap.has(item.mins)) {
+            if (item.url && item.url.trim().length > 0 && !durationMap.has(item.mins)) {
               durationMap.set(item.mins, `${item.mins} Mins Session`);
             }
           });
@@ -710,19 +710,20 @@
       });
     }
 
-    // Step 4: Render Branches, sorted so available locations appear first
+    // Step 4: Render Branches, strict exact duration matching
     function renderLocations(state) {
       const container = document.getElementById('location-list');
       container.innerHTML = '';
 
       const serviceLocations = bookingConfig[state.service] || {};
 
-      // Prepare list of outlet objects with resolved availability status
       const processedOutlets = outletsData.map(outlet => {
         const branchDurations = serviceLocations[outlet.id] || [];
-        const matchedDuration = branchDurations.find(item => item.mins === state.duration);
-        const redirectUrl = matchedDuration ? matchedDuration.url : "";
-        const isAvailable = Boolean(redirectUrl && redirectUrl.trim().length > 0);
+        
+        // Strict exact match on minutes duration AND non-empty valid URL
+        const matchedDuration = branchDurations.find(item => item.mins === state.duration && item.url && item.url.trim().length > 0);
+        const redirectUrl = matchedDuration ? matchedDuration.url.trim() : "";
+        const isAvailable = Boolean(redirectUrl.length > 0);
 
         return {
           outlet,
@@ -732,7 +733,7 @@
         };
       });
 
-      // Sort array: Available branches first, unavailable branches last
+      // Sort: Available branches first, unavailable branches last
       processedOutlets.sort((a, b) => (b.isAvailable ? 1 : 0) - (a.isAvailable ? 1 : 0));
 
       processedOutlets.forEach(({ outlet, matchedDuration, redirectUrl, isAvailable }) => {
